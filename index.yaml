@@ -2,6 +2,71 @@ apiVersion: v1
 entries:
   cortex:
   - apiVersion: v2
+    appVersion: v1.11.0
+    created: "2022-03-10T08:41:02.355274222Z"
+    dependencies:
+    - alias: memcached
+      condition: memcached.enabled
+      name: memcached
+      repository: https://charts.bitnami.com/bitnami
+      version: 5.15.13
+    - alias: memcached-index-read
+      condition: memcached-index-read.enabled
+      name: memcached
+      repository: https://charts.bitnami.com/bitnami
+      version: 5.15.13
+    - alias: memcached-index-write
+      condition: memcached-index-write.enabled
+      name: memcached
+      repository: https://charts.bitnami.com/bitnami
+      version: 5.15.13
+    - alias: memcached-frontend
+      condition: memcached-frontend.enabled
+      name: memcached
+      repository: https://charts.bitnami.com/bitnami
+      version: 5.15.13
+    - alias: memcached-index
+      name: memcached
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - blocks-storage-memcached
+      version: 5.15.13
+    - alias: memcached-chunks
+      name: memcached
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - blocks-storage-memcached
+      version: 5.15.13
+    - alias: memcached-metadata
+      name: memcached
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - blocks-storage-memcached
+      version: 5.15.13
+    - condition: consul.enabled
+      name: consul
+      repository: https://helm.releases.hashicorp.com
+      version: 0.31.1
+    description: Horizontally scalable, highly available, multi-tenant, long term
+      Prometheus.
+    digest: 4e190d5c8f5f63efa76fac1ca3ac66899122b82efedc4016248ce6f8ee3ae257
+    home: https://cortexmetrics.io/
+    icon: https://avatars2.githubusercontent.com/u/43045022?s=200&v=4
+    kubeVersion: ^1.19.0-0
+    maintainers:
+    - email: thayward@infoblox.com
+      name: Tom Hayward
+      url: https://github.com/kd7lxl
+    - email: Niclas.Schad@plusserver.com
+      name: Niclas Schad
+      url: https://github.com/ShuzZzle
+    name: cortex
+    sources:
+    - https://github.com/cortexproject/cortex-helm-chart
+    urls:
+    - https://github.com/neticdk/cortex-helm-chart/releases/download/cortex-0.5.0/cortex-0.5.0.tgz
+    version: 0.5.0
+  - apiVersion: v2
     appVersion: v1.9.0
     created: "2021-06-10T12:16:00.952972493Z"
     dependencies:
@@ -361,4 +426,4 @@ entries:
     urls:
     - https://neticdk.github.io/cortex-helm-chart/cortex-0.4.0.tgz
     version: 0.4.0
-generated: "2021-06-10T12:16:00.953001093Z"
+generated: "2022-03-10T08:41:02.355312925Z"
