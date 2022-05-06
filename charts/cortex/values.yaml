@@ -1398,13 +1398,17 @@ memcached:
   enabled: false
   architecture: "high-availability"
   replicaCount: 2
-  resources: {}
+  resources:
+    requests:
+      memory: 1329Mi
+      cpu: 500m
+    limits:
+      memory: 1536Mi
   args:
     - /run.sh
     - -m 1024
     - -o
     - modern
-    - -v
     - -I 1m
     - -c 1024
     - -t 4
@@ -1418,13 +1422,17 @@ memcached-index-read:
   enabled: false
   architecture: "high-availability"
   replicaCount: 2
-  resources: {}
+  resources:
+    requests:
+      memory: 1329Mi
+      cpu: 500m
+    limits:
+      memory: 1536Mi
   args:
     - /run.sh
     - -m 1024
     - -o
     - modern
-    - -v
     - -I 1m
     - -c 1024
     - -t 4
@@ -1438,13 +1446,17 @@ memcached-index-write:
   enabled: false
   architecture: "high-availability"
   replicaCount: 2
-  resources: {}
+  resources:
+    requests:
+      memory: 1329Mi
+      cpu: 500m
+    limits:
+      memory: 1536Mi
   args:
     - /run.sh
     - -m 1024
     - -o
     - modern
-    - -v
     - -I 1m
     - -c 1024
     - -t 4
@@ -1462,11 +1474,15 @@ memcached-frontend:
     - -m 1024
     - -o
     - modern
-    - -v
     - -I 1m
     - -c 1024
     - -t 32
-  resources: {}
+  resources:
+    requests:
+      memory: 1329Mi
+      cpu: 500m
+    limits:
+      memory: 1536Mi
   metrics:
     enabled: true
     serviceMonitor:
@@ -1481,8 +1497,7 @@ memcached-index:
     - -m 1024
     - -o
     - modern
-    - -v
-    - -I 5m
+    - -I 16m
     - -c 1024
     - -t 32
   resources:
@@ -1505,11 +1520,15 @@ memcached-chunks:
     - -m 6144
     - -o
     - modern
-    - -v
     - -I 1m
     - -c 4096
     - -t 32
-  resources: {}
+  resources:
+    requests:
+      memory: 2048Mi
+      cpu: 500m
+    limits:
+      memory: 7680Mi
   metrics:
     enabled: true
     serviceMonitor:
@@ -1524,7 +1543,6 @@ memcached-metadata:
     - -m 512
     - -o
     - modern
-    - -v
     - -I 1m
     - -c 1024
     - -t 32
