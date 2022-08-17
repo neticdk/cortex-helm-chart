@@ -1,4 +1,5 @@
 {{- if eq .Values.config.storage.engine "blocks" -}}
+{{- if not .Values.topologyAware.enabled }}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -129,4 +130,164 @@ spec:
           env:
             {{- toYaml .Values.store_gateway.env | nindent 12 }}
           {{- end }}
+{{- end }}
+{{- if .Values.topologyAware.enabled }}
+{{- range $availabilityCell := .Values.topologyAware.availabilityCells }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ template "cortex-store-gateway.fullname" $ }}-{{ $availabilityCell }}
+  labels: {{ include "cortex-store-gateway.labels" $ | nindent 4 }}
+{{- $.Values.topologyAware.zoneLabel | nindent 4 }}: {{ $availabilityCell }}
+  annotations:
+    {{- toYaml $.Values.store_gateway.annotations | nindent 4 }}
+spec:
+  replicas: {{ $.Values.store_gateway.replicas }}
+  selector:
+    matchLabels: {{ include "cortex-store-gateway.matchLabels" $ | nindent 6 }}
+{{- $.Values.topologyAware.zoneLabel | nindent 6 }}: {{ $availabilityCell }}
+  updateStrategy:
+    {{- toYaml $.Values.store_gateway.strategy | nindent 4 }}
+  serviceName: {{ template "cortex-store-gateway.headlessname" $ }}
+  {{- if $.Values.store_gateway.persistentVolume.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: storage
+        {{- if $.Values.store_gateway.persistentVolume.annotations }}
+        annotations:
+          {{ toYaml $.Values.store_gateway.persistentVolume.annotations | nindent 10 }}
+        {{- end }}
+      spec:
+        {{- if $.Values.store_gateway.persistentVolume.storageClass }}
+        {{- if (eq "-" .Values.store_gateway.persistentVolume.storageClass) }}
+        storageClassName: ""
+        {{- else }}
+        storageClassName: "{{ $.Values.store_gateway.persistentVolume.storageClass }}"
+        {{- end }}
+        {{- end }}
+        accessModes:
+          {{- toYaml $.Values.store_gateway.persistentVolume.accessModes | nindent 10 }}
+        resources:
+          requests:
+            storage: "{{ $.Values.store_gateway.persistentVolume.size }}"
+  {{- end }}
+  template:
+    metadata:
+      labels: {{ include "cortex-store-gateway.labels" $ | nindent 8 }}
+{{- $.Values.topologyAware.zoneLabel | nindent 8 }}: {{ $availabilityCell }}
+        {{- with $.Values.store_gateway.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      annotations:
+        checksum/config: {{ include "cortex.configChecksum" $ }}
+        {{- with $.Values.store_gateway.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      serviceAccountName: {{ $.Values.store_gateway.serviceAccount.name | default (include "cortex.serviceAccountName" $ ) }}
+      {{- if $.Values.store_gateway.priorityClassName }}
+      priorityClassName: {{ $.Values.store_gateway.priorityClassName }}
+      {{- end }}
+      securityContext: {{- toYaml $.Values.store_gateway.securityContext | nindent 8 }}
+      initContainers:
+        {{- toYaml $.Values.store_gateway.initContainers | nindent 8 }}
+      {{- if $.Values.image.pullSecrets }}
+      imagePullSecrets:
+      {{- range $.Values.image.pullSecrets }}
+        - name: {{ . }}
+      {{- end }}
+      {{- end }}
+      nodeSelector:
+        {{- toYaml $.Values.store_gateway.nodeSelector | nindent 8 }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app.kubernetes.io/component
+                operator: In
+                values:
+                - store_gateway
+              - key: {{ $.Values.topologyAware.zoneLabel }}
+                operator: NotIn
+                values:
+                - {{ $availabilityCell }}
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: {{ $.Values.topologyAware.zoneLabel }}
+                operator: In
+                values:
+                - {{ $availabilityCell }}    
+      tolerations:
+        {{- toYaml $.Values.store_gateway.tolerations | nindent 8 }}
+      terminationGracePeriodSeconds: {{ $.Values.store_gateway.terminationGracePeriodSeconds }}
+      volumes:
+        {{- include "cortex.configVolume" $ | nindent 8 }}
+        - name: runtime-config
+          configMap:
+            name: {{ template "cortex.runtimeconfigname" $ }}
+        {{- if not $.Values.store_gateway.persistentVolume.enabled }}
+        - name: storage
+          emptyDir: {}
+        {{- end }}
+        {{- if $.Values.store_gateway.extraVolumes }}
+        {{- toYaml $.Values.store_gateway.extraVolumes | nindent 8 }}
+        {{- end }}
+      containers:
+        {{- if $.Values.store_gateway.extraContainers }}
+        {{ toYaml $.Values.store_gateway.extraContainers | nindent 8 }}
+        {{- end }}
+        - name: store-gateway
+          image: "{{ $.Values.image.repository }}:{{ include "cortex.imageTag" $ }}"
+          imagePullPolicy: {{ $.Values.image.pullPolicy }}
+          args:
+            - "-target=store-gateway"
+            - "-config.file=/etc/cortex/cortex.yaml"
+            - "-store-gateway.sharding-ring.instance-availability-zone={{ $availabilityCell }}"
+            - "-store-gateway.sharding-ring.zone-awareness-enabled=true"
+            {{- include "cortex.memcached" $ | nindent 12}}
+            {{- range $key, $value := $.Values.store_gateway.extraArgs }}
+            - "-{{ $key }}={{ $value }}"
+            {{- end }}
+          volumeMounts:
+            {{- if $.Values.store_gateway.extraVolumeMounts }}
+            {{- toYaml $.Values.store_gateway.extraVolumeMounts | nindent 12}}
+            {{- end }}
+            - name: config
+              mountPath: /etc/cortex
+            - name: runtime-config
+              mountPath: /etc/cortex-runtime-config
+            - name: storage
+              mountPath: "/data"
+              {{- if $.Values.store_gateway.persistentVolume.subPath }}
+              subPath: {{ $.Values.store_gateway.persistentVolume.subPath }}
+              {{- end }}
+          ports:
+            - name: http-metrics
+              containerPort: {{ $.Values.config.server.http_listen_port }}
+              protocol: TCP
+            - name: grpc
+              containerPort: {{ $.Values.config.server.grpc_listen_port }}
+              protocol: TCP
+            - name: gossip
+              containerPort: {{ $.Values.config.memberlist.bind_port }}
+              protocol: TCP
+          startupProbe:
+            {{- toYaml $.Values.store_gateway.startupProbe | nindent 12 }}
+          livenessProbe:
+            {{- toYaml $.Values.store_gateway.livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml $.Values.store_gateway.readinessProbe | nindent 12 }}
+          resources:
+            {{- toYaml $.Values.store_gateway.resources | nindent 12 }}
+          securityContext: {{- toYaml $.Values.store_gateway.containerSecurityContext | nindent 12 }}
+          {{- if $.Values.store_gateway.env }}
+          env:
+            {{- toYaml $.Values.store_gateway.env | nindent 12 }}
+          {{- end }}
+---
+{{- end }}
+{{- end }}
 {{- end -}}

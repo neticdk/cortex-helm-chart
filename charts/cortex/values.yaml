@@ -1,3 +1,11 @@
+topologyAware:
+    enabled: true
+    availabilityCells:
+    - netic-dc1
+    - netic-dc4
+    - netic-gad
+    zoneLabel: failure-domain.beta.kubernetes.io/zone
+
 image:
   repository: quay.io/cortexproject/cortex
   # -- Allows you to override the cortex version in this chart. Use at your own risk.
@@ -426,7 +434,7 @@ ingester:
   statefulSet:
     # -- If true, use a statefulset instead of a deployment for pod management.
     # This is useful when using WAL
-    enabled: false
+    enabled: true
     # -- ref: https://cortexmetrics.io/docs/guides/ingesters-scaling-up-and-down/#scaling-down and https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#pod-management-policies for scaledown details
     podManagementPolicy: OrderedReady
 
