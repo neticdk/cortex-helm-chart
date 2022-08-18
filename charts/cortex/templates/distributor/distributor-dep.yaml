@@ -49,6 +49,9 @@ spec:
           {{- range $key, $value := .Values.distributor.extraArgs }}
             - "-{{ $key }}={{ $value }}"
           {{- end }}
+          {{- if .Values.topologyAware.enabled }}
+            - "-distributor.zone-awareness-enabled=true"
+          {{- end }}
           volumeMounts:
             {{- if .Values.distributor.extraVolumeMounts }}
             {{- toYaml .Values.distributor.extraVolumeMounts | nindent 12}}

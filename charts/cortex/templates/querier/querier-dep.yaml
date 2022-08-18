@@ -53,6 +53,10 @@ spec:
           {{- range $key, $value := .Values.querier.extraArgs }}
             - "-{{ $key }}={{ $value }}"
           {{- end }}
+          {{- if .Values.topologyAware.enabled }}
+            - "-distributor.zone-awareness-enabled=true"
+            - "-store-gateway.sharding-ring.zone-awareness-enabled=true"
+          {{- end }}
           volumeMounts:
             {{- if .Values.querier.extraVolumeMounts }}
             {{- toYaml .Values.querier.extraVolumeMounts | nindent 12}}

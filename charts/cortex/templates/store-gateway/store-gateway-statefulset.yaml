@@ -159,7 +159,7 @@ spec:
         {{- end }}
       spec:
         {{- if $.Values.store_gateway.persistentVolume.storageClass }}
-        {{- if (eq "-" .Values.store_gateway.persistentVolume.storageClass) }}
+        {{- if (eq "-" $.Values.store_gateway.persistentVolume.storageClass) }}
         storageClassName: ""
         {{- else }}
         storageClassName: "{{ $.Values.store_gateway.persistentVolume.storageClass }}"
@@ -200,18 +200,6 @@ spec:
       nodeSelector:
         {{- toYaml $.Values.store_gateway.nodeSelector | nindent 8 }}
       affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app.kubernetes.io/component
-                operator: In
-                values:
-                - store_gateway
-              - key: {{ $.Values.topologyAware.zoneLabel }}
-                operator: NotIn
-                values:
-                - {{ $availabilityCell }}
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
