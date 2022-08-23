@@ -1,0 +1,46 @@
+{{- if not .Values.topologyAware.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "cortex-ingester.headlessname" . }}
+  labels: {{ include "cortex-ingester.labels" . | nindent 4 }}
+    {{- with .Values.ingester.service.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  annotations:
+    {{- toYaml .Values.ingester.service.annotations | nindent 4 }}
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - port: {{ .Values.config.server.grpc_listen_port }}
+      protocol: TCP
+      name: grpc
+      targetPort: grpc
+  selector: {{- include "cortex-ingester.matchLabels" . | nindent 4 }}
+{{- end }}
+{{- if .Values.topologyAware.enabled }}
+{{- range $availabilityCell := .Values.topologyAware.availabilityCells }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "cortex-ingester.headlessname" $ }}-{{ $availabilityCell }}
+  labels: {{ include "cortex-ingester.labels" $ | nindent 4 }}
+    {{- with $.Values.ingester.service.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  annotations:
+    {{- toYaml $.Values.ingester.service.annotations | nindent 4 }}
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - port: {{ $.Values.config.server.grpc_listen_port }}
+      protocol: TCP
+      name: grpc
+      targetPort: grpc
+  selector: {{- include "cortex-ingester.matchLabels" $ | nindent 4 }}
+    {{ $.Values.topologyAware.zoneLabel }}: {{ $availabilityCell }}
+---
+{{- end }}
+{{- end }}
