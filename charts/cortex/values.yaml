@@ -1,7 +1,7 @@
 topologyAware:
-    enabled: false
-    availabilityCells: []
-    zoneLabel: topology.kubernetes.io/zone
+  enabled: false
+  availabilityCells: []
+  zoneLabel: topology.kubernetes.io/zone
 
 image:
   repository: quay.io/cortexproject/cortex
