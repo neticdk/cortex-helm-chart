@@ -147,9 +147,10 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ template "cortex-ingester.fullname" $ }}-{{ $availabilityCell }}
+  name: {{ template "cortex-ingester.fullname-zone-aware" dict "Values" $.Values "Release" $.Release "Chart" $.Chart "AvailabilityCell" $availabilityCell }}
   labels: {{ include "cortex-ingester.labels" $ | nindent 4 }}
 {{ $.Values.topologyAware.zoneLabel | nindent 4 }}: {{ $availabilityCell }}
+    rollout-group: ingester
   annotations:
     {{- toYaml $.Values.ingester.annotations | nindent 4 }}
 spec:
@@ -159,10 +160,11 @@ spec:
   selector:
     matchLabels: {{ include "cortex-ingester.matchLabels" $ | nindent 6 }}
 {{ $.Values.topologyAware.zoneLabel | nindent 6 }}: {{ $availabilityCell }}
+      rollout-group: ingester
   updateStrategy:
     {{- toYaml $.Values.ingester.statefulStrategy | nindent 4 }}          
   podManagementPolicy: "{{ $.Values.ingester.statefulSet.podManagementPolicy }}"
-  serviceName: cortex-ingester-{{ $availabilityCell }}
+  serviceName: {{ template "cortex-ingester.headlessname-zone-aware" dict "Values" $.Values "Release" $.Release "Chart" $.Chart "AvailabilityCell" $availabilityCell }}
   {{- if $.Values.ingester.persistentVolume.enabled }}
   volumeClaimTemplates:
     - metadata:
@@ -189,6 +191,7 @@ spec:
     metadata:
       labels: {{ include "cortex-ingester.labels" $ | nindent 8 }}
 {{ $.Values.topologyAware.zoneLabel | nindent 8 }}: {{ $availabilityCell }}
+        rollout-group: ingester
 {{- with $.Values.ingester.podLabels }}
 {{- toYaml . | indent 8 }}
 {{- end }}
@@ -211,8 +214,6 @@ spec:
         - name: {{ . }}
       {{- end }}
       {{- end }}
-      nodeSelector:
-        {{- toYaml $.Values.ingester.nodeSelector | nindent 8 }}
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

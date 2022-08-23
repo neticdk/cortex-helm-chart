@@ -1,10 +1,7 @@
 topologyAware:
-    enabled: true
-    availabilityCells:
-    - netic-dc1
-    - netic-dc4
-    - netic-gad
-    zoneLabel: failure-domain.beta.kubernetes.io/zone
+    enabled: false
+    availabilityCells: []
+    zoneLabel: topology.kubernetes.io/zone
 
 image:
   repository: quay.io/cortexproject/cortex

@@ -16,6 +16,23 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 
 {{/*
+Create a fully qualified cortex-store-gateway name for zone-aware deployment.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "cortex-store-gateway.fullname-zone-aware" -}}
+{{- if .Values.store_gateway.fullnameOverride -}}
+{{- printf "%s-%s" .Values.store_gateway.fullnameOverride .AvailabilityCell | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- $name := default .Chart.Name .Values.nameOverride -}}
+{{- if contains $name .Release.Name -}}
+{{- printf "%s-%s-%s" .Release.Name "store-gateway" .AvailabilityCell | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- printf "%s-%s-%s-%s" .Release.Name $name "store-gateway" .AvailabilityCell | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Create a headless qualified store-gateway service name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
@@ -25,6 +42,19 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- printf "%s-%s" .Release.Name "store-gateway-headless" | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
 {{- printf "%s-%s-%s" .Release.Name $name "store-gateway-headless" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create a headless qualified store-gateway service name for zone-aware deployment.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "cortex-store-gateway.headlessname-zone-aware" -}}
+{{- $name := default .Chart.Name .Values.nameOverride -}}
+{{- if contains $name .Release.Name -}}
+{{- printf "%s-%s-%s" .Release.Name "store-gateway-headless" .AvailabilityCell | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- printf "%s-%s-%s-%s" .Release.Name $name "store-gateway-headless" .AvailabilityCell | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 {{- end -}}
 

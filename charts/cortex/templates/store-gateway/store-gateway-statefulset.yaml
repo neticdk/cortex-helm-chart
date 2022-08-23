@@ -136,7 +136,7 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ template "cortex-store-gateway.fullname" $ }}-{{ $availabilityCell }}
+  name: {{ template "cortex-store-gateway.fullname-zone-aware" dict "Values" $.Values "Release" $.Release "Chart" $.Chart "AvailabilityCell" $availabilityCell }}
   labels: {{ include "cortex-store-gateway.labels" $ | nindent 4 }}
 {{- $.Values.topologyAware.zoneLabel | nindent 4 }}: {{ $availabilityCell }}
   annotations:
@@ -148,7 +148,7 @@ spec:
 {{- $.Values.topologyAware.zoneLabel | nindent 6 }}: {{ $availabilityCell }}
   updateStrategy:
     {{- toYaml $.Values.store_gateway.strategy | nindent 4 }}
-  serviceName: {{ template "cortex-store-gateway.headlessname" $ }}
+  serviceName: {{ template "cortex-store-gateway.headlessname-zone-aware" dict "Values" $.Values "Release" $.Release "Chart" $.Chart "AvailabilityCell" $availabilityCell }}
   {{- if $.Values.store_gateway.persistentVolume.enabled }}
   volumeClaimTemplates:
     - metadata:
