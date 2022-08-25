@@ -224,7 +224,7 @@ spec:
                 values:
                 - {{ $availabilityCell }}
       tolerations:
-        {{- toYaml (index $.Values.ingester.availabilityCellsTolerations $availabilityCell) | nindent 8 }}
+      {{- toYaml (index $.Values.ingester.availabilityCellsTolerations $availabilityCell) | nindent 8 }}
       terminationGracePeriodSeconds: {{ $.Values.ingester.terminationGracePeriodSeconds }}
       volumes:
         {{- include "cortex.configVolume" $ | nindent 8 }}

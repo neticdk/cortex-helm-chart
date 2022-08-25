@@ -209,7 +209,7 @@ spec:
                 values:
                 - {{ $availabilityCell }}    
       tolerations:
-        {{- toYaml (index $.Values.store_gateway.availabilityCellsTolerations $availabilityCell) | nindent 8 }}
+      {{- toYaml (index $.Values.store_gateway.availabilityCellsTolerations $availabilityCell) | nindent 8 }}
       terminationGracePeriodSeconds: {{ $.Values.store_gateway.terminationGracePeriodSeconds }}
       volumes:
         {{- include "cortex.configVolume" $ | nindent 8 }}

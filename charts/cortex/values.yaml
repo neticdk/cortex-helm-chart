@@ -583,7 +583,7 @@ ingester:
 
   availabilityCells: []
 
-  # Map of availabilityCells with list of tolerations for each.
+  # -- Map of availabilityCells with list of tolerations for each.
   # Example:
   # availabilityCellsTolerations: 
   #   AC1:
