@@ -1,6 +1,5 @@
 topologyAware:
   enabled: false
-  availabilityCells: []
   zoneLabel: topology.kubernetes.io/zone
 
 image:
@@ -581,6 +580,23 @@ ingester:
   extraVolumeMounts: []
   extraPorts: []
   env: []
+
+  availabilityCells: []
+
+  # Map of availabilityCells with list of tolerations for each.
+  # Example:
+  # availabilityCellsTolerations: 
+  #   AC1:
+  #   - key: "key1"
+  #     operator: "Equal"
+  #     value: "value1"
+  #     effect: "NoSchedule"
+  #   AC2:
+  #   - key: "key1"
+  #     operator: "Equal"
+  #     value: "value1"
+  #     effect: "NoSchedule"
+  availabilityCellsTolerations: {}
 
 ruler:
   enabled: true
@@ -1281,6 +1297,23 @@ store_gateway:
   extraVolumeMounts: []
   extraPorts: []
   env: []
+  
+  availabilityCells: []
+
+  # Map of availabilityCells with list of tolerations for each.
+  # Example:
+  # availabilityCellsTolerations: 
+  #   AC1:
+  #   - key: "key1"
+  #     operator: "Equal"
+  #     value: "value1"
+  #     effect: "NoSchedule"
+  #   AC2:
+  #   - key: "key1"
+  #     operator: "Equal"
+  #     value: "value1"
+  #     effect: "NoSchedule"
+  availabilityCellsTolerations: {}
 
 compactor:
   enabled: true

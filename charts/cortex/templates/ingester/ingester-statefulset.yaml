@@ -143,7 +143,7 @@ spec:
           {{- end }}
 {{- end -}}
 {{- if .Values.topologyAware.enabled }}
-{{- range $availabilityCell := .Values.topologyAware.availabilityCells }}
+{{- range $availabilityCell := .Values.ingester.availabilityCells }}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -222,9 +222,9 @@ spec:
               - key: {{ $.Values.topologyAware.zoneLabel }}
                 operator: In
                 values:
-                - {{ $availabilityCell }}    
+                - {{ $availabilityCell }}
       tolerations:
-        {{- toYaml $.Values.ingester.tolerations | nindent 8 }}
+        {{- toYaml (index $.Values.ingester.availabilityCellsTolerations $availabilityCell) | nindent 8 }}
       terminationGracePeriodSeconds: {{ $.Values.ingester.terminationGracePeriodSeconds }}
       volumes:
         {{- include "cortex.configVolume" $ | nindent 8 }}

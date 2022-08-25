@@ -20,7 +20,7 @@ spec:
   selector: {{- include "cortex-ingester.matchLabels" . | nindent 4 }}
 {{- end }}
 {{- if .Values.topologyAware.enabled }}
-{{- range $availabilityCell := .Values.topologyAware.availabilityCells }}
+{{- range $availabilityCell := .Values.ingester.availabilityCells }}
 apiVersion: v1
 kind: Service
 metadata:

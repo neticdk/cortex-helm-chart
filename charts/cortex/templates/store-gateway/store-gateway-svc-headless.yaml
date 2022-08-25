@@ -21,7 +21,7 @@ spec:
   selector: {{- include "cortex-store-gateway.matchLabels" . | nindent 4 }}
 {{- end }}
 {{- if .Values.topologyAware.enabled }}
-{{- range $availabilityCell := .Values.topologyAware.availabilityCells }}
+{{- range $availabilityCell := .Values.store_gateway.availabilityCells }}
 apiVersion: v1
 kind: Service
 metadata:

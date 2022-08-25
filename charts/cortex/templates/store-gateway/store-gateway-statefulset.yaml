@@ -132,7 +132,7 @@ spec:
           {{- end }}
 {{- end }}
 {{- if .Values.topologyAware.enabled }}
-{{- range $availabilityCell := .Values.topologyAware.availabilityCells }}
+{{- range $availabilityCell := .Values.store_gateway.availabilityCells }}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -209,7 +209,7 @@ spec:
                 values:
                 - {{ $availabilityCell }}    
       tolerations:
-        {{- toYaml $.Values.store_gateway.tolerations | nindent 8 }}
+        {{- toYaml (index $.Values.store_gateway.availabilityCellsTolerations $availabilityCell) | nindent 8 }}
       terminationGracePeriodSeconds: {{ $.Values.store_gateway.terminationGracePeriodSeconds }}
       volumes:
         {{- include "cortex.configVolume" $ | nindent 8 }}
