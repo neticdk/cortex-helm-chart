@@ -66,3 +66,4 @@ dependencies:
     version: 0.1.2
     repository: https://grafana.github.io/helm-charts
     condition: topologyAware.rolloutOperator.enabled
+    
