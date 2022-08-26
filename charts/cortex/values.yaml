@@ -598,7 +598,7 @@ ingester:
   #     operator: "Equal"
   #     value: "value1"
   #     effect: "NoSchedule"
-  
+
   availabilityCellsTolerations: {}
 
 ruler:
@@ -1300,7 +1300,7 @@ store_gateway:
   extraVolumeMounts: []
   extraPorts: []
   env: []
-  
+
   availabilityCells: []
 
   # Map of availabilityCells with list of tolerations for each.
