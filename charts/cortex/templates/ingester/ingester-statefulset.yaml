@@ -150,9 +150,16 @@ metadata:
   name: {{ template "cortex-ingester.fullname-zone-aware" dict "Values" $.Values "Release" $.Release "Chart" $.Chart "AvailabilityCell" $availabilityCell }}
   labels: {{ include "cortex-ingester.labels" $ | nindent 4 }}
 {{ $.Values.topologyAware.zoneLabel | nindent 4 }}: {{ $availabilityCell }}
+    {{- if $.Values.topologyAware.rolloutOperator.enabled }}
     rollout-group: ingester
+    {{- end }}
   annotations:
+    {{- if not (empty $.Values.ingester.annotations) }}
     {{- toYaml $.Values.ingester.annotations | nindent 4 }}
+    {{- end }}
+    {{- if and $.Values.topologyAware.rolloutOperator.enabled (ge (len $.Values.ingester.availabilityCells) (int $.Values.config.ingester.lifecycler.ring.replication_factor)) }}
+    rollout-max-unavailable: {{ $.Values.ingester.replicas }}
+    {{- end }}
 spec:
   {{- if not $.Values.ingester.autoscaling.enabled }}
   replicas: {{ $.Values.ingester.replicas }}
@@ -160,7 +167,6 @@ spec:
   selector:
     matchLabels: {{ include "cortex-ingester.matchLabels" $ | nindent 6 }}
 {{ $.Values.topologyAware.zoneLabel | nindent 6 }}: {{ $availabilityCell }}
-      rollout-group: ingester
   updateStrategy:
     {{- toYaml $.Values.ingester.statefulStrategy | nindent 4 }}          
   podManagementPolicy: "{{ $.Values.ingester.statefulSet.podManagementPolicy }}"
@@ -191,7 +197,10 @@ spec:
     metadata:
       labels: {{ include "cortex-ingester.labels" $ | nindent 8 }}
 {{ $.Values.topologyAware.zoneLabel | nindent 8 }}: {{ $availabilityCell }}
+        {{- if $.Values.topologyAware.rolloutOperator.enabled }}
         rollout-group: ingester
+        name: {{ template "cortex-ingester.fullname-zone-aware" dict "Values" $.Values "Release" $.Release "Chart" $.Chart "AvailabilityCell" $availabilityCell }}
+        {{- end }}
 {{- with $.Values.ingester.podLabels }}
 {{- toYaml . | indent 8 }}
 {{- end }}

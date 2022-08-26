@@ -1,6 +1,8 @@
 topologyAware:
   enabled: false
   zoneLabel: topology.kubernetes.io/zone
+  rolloutOperator:
+    enabled: false
 
 image:
   repository: quay.io/cortexproject/cortex
@@ -585,7 +587,7 @@ ingester:
 
   # -- Map of availabilityCells with list of tolerations for each.
   # Example:
-  # availabilityCellsTolerations: 
+  # availabilityCellsTolerations:
   #   AC1:
   #   - key: "key1"
   #     operator: "Equal"
@@ -596,6 +598,7 @@ ingester:
   #     operator: "Equal"
   #     value: "value1"
   #     effect: "NoSchedule"
+  
   availabilityCellsTolerations: {}
 
 ruler:
@@ -1302,7 +1305,7 @@ store_gateway:
 
   # Map of availabilityCells with list of tolerations for each.
   # Example:
-  # availabilityCellsTolerations: 
+  # availabilityCellsTolerations:
   #   AC1:
   #   - key: "key1"
   #     operator: "Equal"

@@ -61,3 +61,8 @@ dependencies:
     version: 0.31.1
     repository: https://helm.releases.hashicorp.com
     condition: consul.enabled
+
+  - name: rollout-operator
+    version: 0.1.2
+    repository: https://grafana.github.io/helm-charts
+    condition: topologyAware.rolloutOperator.enabled
