@@ -1,5 +1,5 @@
 topologyAware:
-  enabled: false
+  enabled: true
   zoneLabel: topology.kubernetes.io/zone
   rolloutOperator:
     enabled: false
@@ -583,23 +583,10 @@ ingester:
   extraPorts: []
   env: []
 
-  availabilityCells: []
-
-  # -- Map of availabilityCells with list of tolerations for each.
-  # Example:
-  # availabilityCellsTolerations:
-  #   AC1:
-  #   - key: "key1"
-  #     operator: "Equal"
-  #     value: "value1"
-  #     effect: "NoSchedule"
-  #   AC2:
-  #   - key: "key1"
-  #     operator: "Equal"
-  #     value: "value1"
-  #     effect: "NoSchedule"
-
-  availabilityCellsTolerations: {}
+  availabilityCells:
+    az1:
+      name: az1  # Maybe not that elegant, though, but we need a placeholder if no tolerations is given
+      tolerations: []  # Optional
 
 ruler:
   enabled: true

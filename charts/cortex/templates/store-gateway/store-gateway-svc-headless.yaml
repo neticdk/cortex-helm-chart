@@ -25,7 +25,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "cortex-store-gateway.headlessname" $ }}-{{ $availabilityCell }}
+  name: {{ template "cortex-store-gateway.headlessname-zone-aware" dict "Values" $.Values "Release" $.Release "Chart" $.Chart "AvailabilityCell" $availabilityCell.name }}
   labels: {{ include "cortex-store-gateway.labels" $ | nindent 4 }}
     {{- with $.Values.store_gateway.service.labels }}
     {{- toYaml . | nindent 4 }}
@@ -41,7 +41,7 @@ spec:
       name: grpc
       targetPort: grpc
   selector: {{- include "cortex-store-gateway.matchLabels" $ | nindent 4 }}
-    {{ $.Values.topologyAware.zoneLabel }}: {{ $availabilityCell }}
+    {{ $.Values.topologyAware.zoneLabel }}: {{ $availabilityCell.name }}
 ---
 {{- end }}
 {{- end }}

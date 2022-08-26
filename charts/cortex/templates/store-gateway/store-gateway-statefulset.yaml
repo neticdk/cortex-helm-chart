@@ -136,19 +136,19 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ template "cortex-store-gateway.fullname-zone-aware" dict "Values" $.Values "Release" $.Release "Chart" $.Chart "AvailabilityCell" $availabilityCell }}
+  name: {{ template "cortex-store-gateway.fullname-zone-aware" dict "Values" $.Values "Release" $.Release "Chart" $.Chart "AvailabilityCell" $availabilityCell.name }}
   labels: {{ include "cortex-store-gateway.labels" $ | nindent 4 }}
-{{- $.Values.topologyAware.zoneLabel | nindent 4 }}: {{ $availabilityCell }}
+{{- $.Values.topologyAware.zoneLabel | nindent 4 }}: {{ $availabilityCell.name }}
   annotations:
     {{- toYaml $.Values.store_gateway.annotations | nindent 4 }}
 spec:
   replicas: {{ $.Values.store_gateway.replicas }}
   selector:
     matchLabels: {{ include "cortex-store-gateway.matchLabels" $ | nindent 6 }}
-{{- $.Values.topologyAware.zoneLabel | nindent 6 }}: {{ $availabilityCell }}
+{{- $.Values.topologyAware.zoneLabel | nindent 6 }}: {{ $availabilityCell.name }}
   updateStrategy:
     {{- toYaml $.Values.store_gateway.strategy | nindent 4 }}
-  serviceName: {{ template "cortex-store-gateway.headlessname-zone-aware" dict "Values" $.Values "Release" $.Release "Chart" $.Chart "AvailabilityCell" $availabilityCell }}
+  serviceName: {{ template "cortex-store-gateway.headlessname-zone-aware" dict "Values" $.Values "Release" $.Release "Chart" $.Chart "AvailabilityCell" $availabilityCell.name }}
   {{- if $.Values.store_gateway.persistentVolume.enabled }}
   volumeClaimTemplates:
     - metadata:
@@ -174,7 +174,7 @@ spec:
   template:
     metadata:
       labels: {{ include "cortex-store-gateway.labels" $ | nindent 8 }}
-{{- $.Values.topologyAware.zoneLabel | nindent 8 }}: {{ $availabilityCell }}
+{{- $.Values.topologyAware.zoneLabel | nindent 8 }}: {{ $availabilityCell.name }}
         {{- with $.Values.store_gateway.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -207,9 +207,9 @@ spec:
               - key: {{ $.Values.topologyAware.zoneLabel }}
                 operator: In
                 values:
-                - {{ $availabilityCell }}    
+                - {{ $availabilityCell.name }}    
       tolerations:
-      {{- toYaml (index $.Values.store_gateway.availabilityCellsTolerations $availabilityCell) | nindent 8 }}
+      {{- toYaml $availabilityCell.tolerations | nindent 8 }}
       terminationGracePeriodSeconds: {{ $.Values.store_gateway.terminationGracePeriodSeconds }}
       volumes:
         {{- include "cortex.configVolume" $ | nindent 8 }}
@@ -233,7 +233,7 @@ spec:
           args:
             - "-target=store-gateway"
             - "-config.file=/etc/cortex/cortex.yaml"
-            - "-store-gateway.sharding-ring.instance-availability-zone={{ $availabilityCell }}"
+            - "-store-gateway.sharding-ring.instance-availability-zone={{ $availabilityCell.name }}"
             - "-store-gateway.sharding-ring.zone-awareness-enabled=true"
             {{- include "cortex.memcached" $ | nindent 12}}
             {{- range $key, $value := $.Values.store_gateway.extraArgs }}
