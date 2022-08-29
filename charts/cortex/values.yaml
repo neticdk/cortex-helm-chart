@@ -1,5 +1,5 @@
 topologyAware:
-  enabled: true
+  enabled: false
   zoneLabel: topology.kubernetes.io/zone
   rolloutOperator:
     enabled: false
