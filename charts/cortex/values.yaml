@@ -1,3 +1,9 @@
+topologyAware:
+  enabled: false
+  zoneLabel: topology.kubernetes.io/zone
+  rolloutOperator:
+    enabled: false
+
 image:
   repository: quay.io/cortexproject/cortex
   # -- Allows you to override the cortex version in this chart. Use at your own risk.
@@ -426,7 +432,7 @@ ingester:
   statefulSet:
     # -- If true, use a statefulset instead of a deployment for pod management.
     # This is useful when using WAL
-    enabled: false
+    enabled: true
     # -- ref: https://cortexmetrics.io/docs/guides/ingesters-scaling-up-and-down/#scaling-down and https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#pod-management-policies for scaledown details
     podManagementPolicy: OrderedReady
 
@@ -576,6 +582,11 @@ ingester:
   extraVolumeMounts: []
   extraPorts: []
   env: []
+
+  availabilityCells:
+    az1:
+      name: az1  # Maybe not that elegant, though, but we need a placeholder if no tolerations is given
+      tolerations: []  # Optional
 
 ruler:
   enabled: true
@@ -1276,6 +1287,23 @@ store_gateway:
   extraVolumeMounts: []
   extraPorts: []
   env: []
+
+  availabilityCells: []
+
+  # Map of availabilityCells with list of tolerations for each.
+  # Example:
+  # availabilityCellsTolerations:
+  #   AC1:
+  #   - key: "key1"
+  #     operator: "Equal"
+  #     value: "value1"
+  #     effect: "NoSchedule"
+  #   AC2:
+  #   - key: "key1"
+  #     operator: "Equal"
+  #     value: "value1"
+  #     effect: "NoSchedule"
+  availabilityCellsTolerations: {}
 
 compactor:
   enabled: true

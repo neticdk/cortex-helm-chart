@@ -23,5 +23,8 @@ dependencies:
 - name: consul
   repository: https://helm.releases.hashicorp.com
   version: 0.31.1
-digest: sha256:fbf9161ffd330ec2f1b37341c1eb20535ff56c0ddc85b3af48d7d6aea0b7d4fa
-generated: "2022-05-04T11:44:32.47152+02:00"
+- name: rollout-operator
+  repository: https://grafana.github.io/helm-charts
+  version: 0.1.2
+digest: sha256:93d67b89e94edacaca766aad585311d864b587f66c684b8933972bce244b7aff
+generated: "2022-08-26T13:31:00.952957+02:00"
