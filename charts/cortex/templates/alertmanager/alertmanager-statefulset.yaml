@@ -38,6 +38,7 @@ spec:
   template:
     metadata:
       labels: {{ include "cortex-alertmanager.labels" . | nindent 8 }}
+        app.kubernetes.io/part-of: memberlist
 {{- with .Values.alertmanager.podLabels }}
 {{- toYaml . | indent 8 }}
 {{- end }}
@@ -165,7 +166,7 @@ spec:
             - name: http-metrics
               containerPort: {{ .Values.config.server.http_listen_port }}
               protocol: TCP
-            - name: gossip
+            - name: http-gossip
               containerPort: {{ .Values.config.memberlist.bind_port }}
               protocol: TCP
           startupProbe:

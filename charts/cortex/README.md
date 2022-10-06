@@ -2,7 +2,7 @@
 
 # cortex
 
-![Version: 0.4.5](https://img.shields.io/badge/Version-0.4.5-informational?style=flat-square) ![AppVersion: v1.11.0](https://img.shields.io/badge/AppVersion-v1.11.0-informational?style=flat-square)
+![Version: 0.5.5](https://img.shields.io/badge/Version-0.5.5-informational?style=flat-square) ![AppVersion: v1.13.1](https://img.shields.io/badge/AppVersion-v1.13.1-informational?style=flat-square)
 
 Horizontally scalable, highly available, multi-tenant, long term Prometheus.
 
@@ -86,14 +86,15 @@ Kubernetes: `^1.19.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.bitnami.com/bitnami | memcached(memcached) | 5.15.13 |
-| https://charts.bitnami.com/bitnami | memcached-index-read(memcached) | 5.15.13 |
-| https://charts.bitnami.com/bitnami | memcached-index-write(memcached) | 5.15.13 |
-| https://charts.bitnami.com/bitnami | memcached-frontend(memcached) | 5.15.13 |
-| https://charts.bitnami.com/bitnami | memcached-index(memcached) | 5.15.13 |
-| https://charts.bitnami.com/bitnami | memcached-chunks(memcached) | 5.15.13 |
-| https://charts.bitnami.com/bitnami | memcached-metadata(memcached) | 5.15.13 |
-| https://helm.releases.hashicorp.com | consul | 0.31.1 |
+| https://charts.bitnami.com/bitnami | memcached(memcached) | 6.2.5 |
+| https://charts.bitnami.com/bitnami | memcached-index-read(memcached) | 6.2.5 |
+| https://charts.bitnami.com/bitnami | memcached-index-write(memcached) | 6.2.5 |
+| https://charts.bitnami.com/bitnami | memcached-frontend(memcached) | 6.2.5 |
+| https://charts.bitnami.com/bitnami | memcached-index(memcached) | 6.2.5 |
+| https://charts.bitnami.com/bitnami | memcached-chunks(memcached) | 6.2.5 |
+| https://charts.bitnami.com/bitnami | memcached-metadata(memcached) | 6.2.5 |
+| https://grafana.github.io/helm-charts | rollout-operator | 0.1.2 |
+| https://helm.releases.hashicorp.com | consul | 0.49.0 |
 
 ## Values
 
@@ -154,7 +155,6 @@ Kubernetes: `^1.19.0-0`
 | compactor.&ZeroWidthSpace;affinity.&ZeroWidthSpace;podAntiAffinity.&ZeroWidthSpace;preferredDuringSchedulingIgnoredDuringExecution[0].&ZeroWidthSpace;podAffinityTerm.&ZeroWidthSpace;topologyKey | string | `"kubernetes.io/hostname"` |  |
 | compactor.&ZeroWidthSpace;affinity.&ZeroWidthSpace;podAntiAffinity.&ZeroWidthSpace;preferredDuringSchedulingIgnoredDuringExecution[0].&ZeroWidthSpace;weight | int | `100` |  |
 | compactor.&ZeroWidthSpace;annotations | object | `{}` |  |
-| compactor.&ZeroWidthSpace;containerSecurityContext.&ZeroWidthSpace;enabled | bool | `true` |  |
 | compactor.&ZeroWidthSpace;containerSecurityContext.&ZeroWidthSpace;readOnlyRootFilesystem | bool | `true` |  |
 | compactor.&ZeroWidthSpace;enabled | bool | `true` |  |
 | compactor.&ZeroWidthSpace;env | list | `[]` |  |
@@ -223,6 +223,7 @@ Kubernetes: `^1.19.0-0`
 | config.&ZeroWidthSpace;ingester_client.&ZeroWidthSpace;grpc_client_config.&ZeroWidthSpace;max_recv_msg_size | int | `104857600` |  |
 | config.&ZeroWidthSpace;ingester_client.&ZeroWidthSpace;grpc_client_config.&ZeroWidthSpace;max_send_msg_size | int | `104857600` |  |
 | config.&ZeroWidthSpace;limits | object | `{}` |  |
+| config.&ZeroWidthSpace;memberlist.&ZeroWidthSpace;bind_port | int | `7946` |  |
 | config.&ZeroWidthSpace;memberlist.&ZeroWidthSpace;join_members | list | `[]` | the service name of the memberlist |
 | config.&ZeroWidthSpace;querier.&ZeroWidthSpace;active_query_tracker_dir | string | `"/data/cortex-active-query-tracker"` |  |
 | config.&ZeroWidthSpace;querier.&ZeroWidthSpace;query_ingesters_within | string | `"6h"` |  |
@@ -244,7 +245,6 @@ Kubernetes: `^1.19.0-0`
 | config.&ZeroWidthSpace;store_gateway | object | `{"sharding_enabled":false}` | https://cortexmetrics.io/docs/configuration/configuration-file/#store_gateway_config |
 | configs.&ZeroWidthSpace;affinity | object | `{}` |  |
 | configs.&ZeroWidthSpace;annotations | object | `{}` |  |
-| configs.&ZeroWidthSpace;containerSecurityContext.&ZeroWidthSpace;enabled | bool | `true` |  |
 | configs.&ZeroWidthSpace;containerSecurityContext.&ZeroWidthSpace;readOnlyRootFilesystem | bool | `true` |  |
 | configs.&ZeroWidthSpace;enabled | bool | `false` |  |
 | configs.&ZeroWidthSpace;env | list | `[]` |  |
@@ -288,7 +288,7 @@ Kubernetes: `^1.19.0-0`
 | configsdb_postgresql.&ZeroWidthSpace;enabled | bool | `false` |  |
 | configsdb_postgresql.&ZeroWidthSpace;uri | string | `nil` |  |
 | consul.&ZeroWidthSpace;client.&ZeroWidthSpace;enabled | bool | `false` |  |
-| consul.&ZeroWidthSpace;enabled | bool | `true` |  |
+| consul.&ZeroWidthSpace;enabled | bool | `false` |  |
 | distributor.&ZeroWidthSpace;affinity.&ZeroWidthSpace;podAntiAffinity.&ZeroWidthSpace;preferredDuringSchedulingIgnoredDuringExecution[0].&ZeroWidthSpace;podAffinityTerm.&ZeroWidthSpace;labelSelector.&ZeroWidthSpace;matchExpressions[0].&ZeroWidthSpace;key | string | `"app.kubernetes.io/component"` |  |
 | distributor.&ZeroWidthSpace;affinity.&ZeroWidthSpace;podAntiAffinity.&ZeroWidthSpace;preferredDuringSchedulingIgnoredDuringExecution[0].&ZeroWidthSpace;podAffinityTerm.&ZeroWidthSpace;labelSelector.&ZeroWidthSpace;matchExpressions[0].&ZeroWidthSpace;operator | string | `"In"` |  |
 | distributor.&ZeroWidthSpace;affinity.&ZeroWidthSpace;podAntiAffinity.&ZeroWidthSpace;preferredDuringSchedulingIgnoredDuringExecution[0].&ZeroWidthSpace;podAffinityTerm.&ZeroWidthSpace;labelSelector.&ZeroWidthSpace;matchExpressions[0].&ZeroWidthSpace;values[0] | string | `"distributor"` |  |
@@ -301,7 +301,6 @@ Kubernetes: `^1.19.0-0`
 | distributor.&ZeroWidthSpace;autoscaling.&ZeroWidthSpace;minReplicas | int | `2` |  |
 | distributor.&ZeroWidthSpace;autoscaling.&ZeroWidthSpace;targetCPUUtilizationPercentage | int | `80` |  |
 | distributor.&ZeroWidthSpace;autoscaling.&ZeroWidthSpace;targetMemoryUtilizationPercentage | int | `0` |  |
-| distributor.&ZeroWidthSpace;containerSecurityContext.&ZeroWidthSpace;enabled | bool | `true` |  |
 | distributor.&ZeroWidthSpace;containerSecurityContext.&ZeroWidthSpace;readOnlyRootFilesystem | bool | `true` |  |
 | distributor.&ZeroWidthSpace;env | list | `[]` |  |
 | distributor.&ZeroWidthSpace;extraArgs | object | `{}` | Additional Cortex container arguments, e.g. log.level (debug, info, warn, error) |
@@ -358,7 +357,8 @@ Kubernetes: `^1.19.0-0`
 | ingester.&ZeroWidthSpace;autoscaling.&ZeroWidthSpace;maxReplicas | int | `30` |  |
 | ingester.&ZeroWidthSpace;autoscaling.&ZeroWidthSpace;minReplicas | int | `3` |  |
 | ingester.&ZeroWidthSpace;autoscaling.&ZeroWidthSpace;targetMemoryUtilizationPercentage | int | `80` |  |
-| ingester.&ZeroWidthSpace;containerSecurityContext.&ZeroWidthSpace;enabled | bool | `true` |  |
+| ingester.&ZeroWidthSpace;availabilityCells.&ZeroWidthSpace;az1.&ZeroWidthSpace;name | string | `"az1"` |  |
+| ingester.&ZeroWidthSpace;availabilityCells.&ZeroWidthSpace;az1.&ZeroWidthSpace;tolerations | list | `[]` |  |
 | ingester.&ZeroWidthSpace;containerSecurityContext.&ZeroWidthSpace;readOnlyRootFilesystem | bool | `true` |  |
 | ingester.&ZeroWidthSpace;env | list | `[]` |  |
 | ingester.&ZeroWidthSpace;extraArgs | object | `{}` | Additional Cortex container arguments, e.g. log.level (debug, info, warn, error) |
@@ -393,7 +393,7 @@ Kubernetes: `^1.19.0-0`
 | ingester.&ZeroWidthSpace;serviceMonitor.&ZeroWidthSpace;metricRelabelings | list | `[]` |  |
 | ingester.&ZeroWidthSpace;serviceMonitor.&ZeroWidthSpace;relabelings | list | `[]` |  |
 | ingester.&ZeroWidthSpace;startupProbe | object | `{}` | Startup/liveness probes for ingesters are not recommended.  Ref: https://cortexmetrics.io/docs/guides/running-cortex-on-kubernetes/#take-extra-care-with-ingesters |
-| ingester.&ZeroWidthSpace;statefulSet.&ZeroWidthSpace;enabled | bool | `false` | If true, use a statefulset instead of a deployment for pod management. This is useful when using WAL |
+| ingester.&ZeroWidthSpace;statefulSet.&ZeroWidthSpace;enabled | bool | `true` | If true, use a statefulset instead of a deployment for pod management. This is useful when using WAL |
 | ingester.&ZeroWidthSpace;statefulSet.&ZeroWidthSpace;podManagementPolicy | string | `"OrderedReady"` | ref: https://cortexmetrics.io/docs/guides/ingesters-scaling-up-and-down/#scaling-down and https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#pod-management-policies for scaledown details |
 | ingester.&ZeroWidthSpace;statefulStrategy.&ZeroWidthSpace;type | string | `"RollingUpdate"` |  |
 | ingester.&ZeroWidthSpace;strategy.&ZeroWidthSpace;rollingUpdate.&ZeroWidthSpace;maxSurge | int | `0` |  |
@@ -408,61 +408,66 @@ Kubernetes: `^1.19.0-0`
 | ingress.&ZeroWidthSpace;ingressClass.&ZeroWidthSpace;enabled | bool | `false` |  |
 | ingress.&ZeroWidthSpace;ingressClass.&ZeroWidthSpace;name | string | `"nginx"` |  |
 | ingress.&ZeroWidthSpace;tls | list | `[]` |  |
-| memcached | object | `{"architecture":"high-availability","enabled":false,"extraEnv":[{"name":"MEMCACHED_CACHE_SIZE","value":"1024"},{"name":"MEMCACHED_MAX_CONNECTIONS","value":"1024"},{"name":"MEMCACHED_THREADS","value":"4"}],"metrics":{"enabled":true,"serviceMonitor":{"enabled":false}},"replicaCount":2,"resources":{}}` | chunk caching for legacy chunk storage engine |
+| memcached | object | `{"architecture":"high-availability","args":["/run.sh","-m 1024","-o","modern","-I 1m","-c 1024","-t 4"],"enabled":false,"metrics":{"enabled":true,"serviceMonitor":{"enabled":false}},"replicaCount":2,"resources":{"limits":{"memory":"1536Mi"},"requests":{"cpu":"500m","memory":"1329Mi"}}}` | chunk caching for legacy chunk storage engine |
 | memcached-chunks.&ZeroWidthSpace;architecture | string | `"high-availability"` |  |
-| memcached-chunks.&ZeroWidthSpace;memcached.&ZeroWidthSpace;extraArgs[0] | string | `"-I 1m"` |  |
-| memcached-chunks.&ZeroWidthSpace;memcached.&ZeroWidthSpace;extraArgs[1] | string | `"-c 4096"` |  |
-| memcached-chunks.&ZeroWidthSpace;memcached.&ZeroWidthSpace;maxItemMemory | int | `6144` |  |
-| memcached-chunks.&ZeroWidthSpace;memcached.&ZeroWidthSpace;threads | int | `32` |  |
+| memcached-chunks.&ZeroWidthSpace;args[0] | string | `"/run.sh"` |  |
+| memcached-chunks.&ZeroWidthSpace;args[1] | string | `"-m 6144"` |  |
+| memcached-chunks.&ZeroWidthSpace;args[2] | string | `"-o"` |  |
+| memcached-chunks.&ZeroWidthSpace;args[3] | string | `"modern"` |  |
+| memcached-chunks.&ZeroWidthSpace;args[4] | string | `"-I 1m"` |  |
+| memcached-chunks.&ZeroWidthSpace;args[5] | string | `"-c 4096"` |  |
+| memcached-chunks.&ZeroWidthSpace;args[6] | string | `"-t 32"` |  |
 | memcached-chunks.&ZeroWidthSpace;metrics.&ZeroWidthSpace;enabled | bool | `true` |  |
 | memcached-chunks.&ZeroWidthSpace;metrics.&ZeroWidthSpace;serviceMonitor.&ZeroWidthSpace;enabled | bool | `false` |  |
 | memcached-chunks.&ZeroWidthSpace;replicaCount | int | `2` |  |
-| memcached-chunks.&ZeroWidthSpace;resources | object | `{}` |  |
+| memcached-chunks.&ZeroWidthSpace;resources.&ZeroWidthSpace;limits.&ZeroWidthSpace;memory | string | `"7680Mi"` |  |
+| memcached-chunks.&ZeroWidthSpace;resources.&ZeroWidthSpace;requests.&ZeroWidthSpace;cpu | string | `"500m"` |  |
+| memcached-chunks.&ZeroWidthSpace;resources.&ZeroWidthSpace;requests.&ZeroWidthSpace;memory | string | `"2048Mi"` |  |
 | memcached-frontend.&ZeroWidthSpace;architecture | string | `"high-availability"` |  |
+| memcached-frontend.&ZeroWidthSpace;args[0] | string | `"/run.sh"` |  |
+| memcached-frontend.&ZeroWidthSpace;args[1] | string | `"-m 1024"` |  |
+| memcached-frontend.&ZeroWidthSpace;args[2] | string | `"-o"` |  |
+| memcached-frontend.&ZeroWidthSpace;args[3] | string | `"modern"` |  |
+| memcached-frontend.&ZeroWidthSpace;args[4] | string | `"-I 1m"` |  |
+| memcached-frontend.&ZeroWidthSpace;args[5] | string | `"-c 1024"` |  |
+| memcached-frontend.&ZeroWidthSpace;args[6] | string | `"-t 32"` |  |
 | memcached-frontend.&ZeroWidthSpace;enabled | bool | `false` |  |
-| memcached-frontend.&ZeroWidthSpace;memcached.&ZeroWidthSpace;extraArgs[0] | string | `"-I 32m"` |  |
-| memcached-frontend.&ZeroWidthSpace;memcached.&ZeroWidthSpace;extraArgs[1] | string | `"-c 1024"` |  |
-| memcached-frontend.&ZeroWidthSpace;memcached.&ZeroWidthSpace;maxItemMemory | int | `1024` |  |
-| memcached-frontend.&ZeroWidthSpace;memcached.&ZeroWidthSpace;threads | int | `32` |  |
 | memcached-frontend.&ZeroWidthSpace;metrics.&ZeroWidthSpace;enabled | bool | `true` |  |
 | memcached-frontend.&ZeroWidthSpace;metrics.&ZeroWidthSpace;serviceMonitor.&ZeroWidthSpace;enabled | bool | `false` |  |
 | memcached-frontend.&ZeroWidthSpace;replicaCount | int | `2` |  |
-| memcached-frontend.&ZeroWidthSpace;resources | object | `{}` |  |
-| memcached-index-read | object | `{"architecture":"high-availability","enabled":false,"extraEnv":[{"name":"MEMCACHED_CACHE_SIZE","value":"1024"},{"name":"MEMCACHED_MAX_CONNECTIONS","value":"1024"},{"name":"MEMCACHED_THREADS","value":"4"}],"metrics":{"enabled":true,"serviceMonitor":{"enabled":false}},"replicaCount":2,"resources":{}}` | index read caching for legacy chunk storage engine |
-| memcached-index-read.&ZeroWidthSpace;extraEnv[0] | object | `{"name":"MEMCACHED_CACHE_SIZE","value":"1024"}` | MEMCACHED_CACHE_SIZE is the amount of memory allocated to memcached for object storage |
-| memcached-index-read.&ZeroWidthSpace;extraEnv[1] | object | `{"name":"MEMCACHED_MAX_CONNECTIONS","value":"1024"}` | MEMCACHED_MAX_CONNECTIONS is the maximum number of simultaneous connections to the memcached service |
-| memcached-index-read.&ZeroWidthSpace;extraEnv[2] | object | `{"name":"MEMCACHED_THREADS","value":"4"}` | MEMCACHED_THREADS is the number of threads to use when processing incoming requests. By default, memcached is configured to use 4 concurrent threads. The threading improves the performance of storing and retrieving data in the cache, using a locking system to prevent different threads overwriting or updating the same values. |
-| memcached-index-write | object | `{"architecture":"high-availability","enabled":false,"extraEnv":[{"name":"MEMCACHED_CACHE_SIZE","value":"1024"},{"name":"MEMCACHED_MAX_CONNECTIONS","value":"1024"},{"name":"MEMCACHED_THREADS","value":"4"}],"metrics":{"enabled":true,"serviceMonitor":{"enabled":false}},"replicaCount":2,"resources":{}}` | index write caching for legacy chunk storage engine |
-| memcached-index-write.&ZeroWidthSpace;extraEnv[0] | object | `{"name":"MEMCACHED_CACHE_SIZE","value":"1024"}` | MEMCACHED_CACHE_SIZE is the amount of memory allocated to memcached for object storage |
-| memcached-index-write.&ZeroWidthSpace;extraEnv[1] | object | `{"name":"MEMCACHED_MAX_CONNECTIONS","value":"1024"}` | MEMCACHED_MAX_CONNECTIONS is the maximum number of simultaneous connections to the memcached service |
-| memcached-index-write.&ZeroWidthSpace;extraEnv[2] | object | `{"name":"MEMCACHED_THREADS","value":"4"}` | MEMCACHED_THREADS is the number of threads to use when processing incoming requests. By default, memcached is configured to use 4 concurrent threads. The threading improves the performance of storing and retrieving data in the cache, using a locking system to prevent different threads overwriting or updating the same values. |
+| memcached-frontend.&ZeroWidthSpace;resources.&ZeroWidthSpace;limits.&ZeroWidthSpace;memory | string | `"1536Mi"` |  |
+| memcached-frontend.&ZeroWidthSpace;resources.&ZeroWidthSpace;requests.&ZeroWidthSpace;cpu | string | `"500m"` |  |
+| memcached-frontend.&ZeroWidthSpace;resources.&ZeroWidthSpace;requests.&ZeroWidthSpace;memory | string | `"1329Mi"` |  |
+| memcached-index-read | object | `{"architecture":"high-availability","args":["/run.sh","-m 1024","-o","modern","-I 1m","-c 1024","-t 4"],"enabled":false,"metrics":{"enabled":true,"serviceMonitor":{"enabled":false}},"replicaCount":2,"resources":{"limits":{"memory":"1536Mi"},"requests":{"cpu":"500m","memory":"1329Mi"}}}` | index read caching for legacy chunk storage engine |
+| memcached-index-write | object | `{"architecture":"high-availability","args":["/run.sh","-m 1024","-o","modern","-I 1m","-c 1024","-t 4"],"enabled":false,"metrics":{"enabled":true,"serviceMonitor":{"enabled":false}},"replicaCount":2,"resources":{"limits":{"memory":"1536Mi"},"requests":{"cpu":"500m","memory":"1329Mi"}}}` | index write caching for legacy chunk storage engine |
 | memcached-index.&ZeroWidthSpace;architecture | string | `"high-availability"` |  |
-| memcached-index.&ZeroWidthSpace;memcached.&ZeroWidthSpace;extraArgs[0] | string | `"-I 5m"` |  |
-| memcached-index.&ZeroWidthSpace;memcached.&ZeroWidthSpace;extraArgs[1] | string | `"-c 1024"` |  |
-| memcached-index.&ZeroWidthSpace;memcached.&ZeroWidthSpace;maxItemMemory | int | `1024` |  |
-| memcached-index.&ZeroWidthSpace;memcached.&ZeroWidthSpace;threads | int | `32` |  |
+| memcached-index.&ZeroWidthSpace;args[0] | string | `"/run.sh"` |  |
+| memcached-index.&ZeroWidthSpace;args[1] | string | `"-m 1024"` |  |
+| memcached-index.&ZeroWidthSpace;args[2] | string | `"-o"` |  |
+| memcached-index.&ZeroWidthSpace;args[3] | string | `"modern"` |  |
+| memcached-index.&ZeroWidthSpace;args[4] | string | `"-I 16m"` |  |
+| memcached-index.&ZeroWidthSpace;args[5] | string | `"-c 1024"` |  |
+| memcached-index.&ZeroWidthSpace;args[6] | string | `"-t 32"` |  |
 | memcached-index.&ZeroWidthSpace;metrics.&ZeroWidthSpace;enabled | bool | `true` |  |
 | memcached-index.&ZeroWidthSpace;metrics.&ZeroWidthSpace;serviceMonitor.&ZeroWidthSpace;enabled | bool | `false` |  |
 | memcached-index.&ZeroWidthSpace;replicaCount | int | `2` |  |
-| memcached-index.&ZeroWidthSpace;resources.&ZeroWidthSpace;limits.&ZeroWidthSpace;cpu | int | `1` |  |
 | memcached-index.&ZeroWidthSpace;resources.&ZeroWidthSpace;limits.&ZeroWidthSpace;memory | string | `"1536Mi"` |  |
 | memcached-index.&ZeroWidthSpace;resources.&ZeroWidthSpace;requests.&ZeroWidthSpace;cpu | string | `"500m"` |  |
 | memcached-index.&ZeroWidthSpace;resources.&ZeroWidthSpace;requests.&ZeroWidthSpace;memory | string | `"1329Mi"` |  |
 | memcached-metadata.&ZeroWidthSpace;architecture | string | `"high-availability"` |  |
-| memcached-metadata.&ZeroWidthSpace;memcached.&ZeroWidthSpace;extraArgs[0] | string | `"-I 1m"` |  |
-| memcached-metadata.&ZeroWidthSpace;memcached.&ZeroWidthSpace;extraArgs[1] | string | `"-c 1024"` |  |
-| memcached-metadata.&ZeroWidthSpace;memcached.&ZeroWidthSpace;maxItemMemory | int | `512` |  |
-| memcached-metadata.&ZeroWidthSpace;memcached.&ZeroWidthSpace;threads | int | `32` |  |
+| memcached-metadata.&ZeroWidthSpace;args[0] | string | `"/run.sh"` |  |
+| memcached-metadata.&ZeroWidthSpace;args[1] | string | `"-m 512"` |  |
+| memcached-metadata.&ZeroWidthSpace;args[2] | string | `"-o"` |  |
+| memcached-metadata.&ZeroWidthSpace;args[3] | string | `"modern"` |  |
+| memcached-metadata.&ZeroWidthSpace;args[4] | string | `"-I 1m"` |  |
+| memcached-metadata.&ZeroWidthSpace;args[5] | string | `"-c 1024"` |  |
+| memcached-metadata.&ZeroWidthSpace;args[6] | string | `"-t 32"` |  |
 | memcached-metadata.&ZeroWidthSpace;metrics.&ZeroWidthSpace;enabled | bool | `true` |  |
 | memcached-metadata.&ZeroWidthSpace;metrics.&ZeroWidthSpace;serviceMonitor.&ZeroWidthSpace;enabled | bool | `false` |  |
 | memcached-metadata.&ZeroWidthSpace;replicaCount | int | `2` |  |
-| memcached-metadata.&ZeroWidthSpace;resources.&ZeroWidthSpace;limits.&ZeroWidthSpace;cpu | int | `1` |  |
 | memcached-metadata.&ZeroWidthSpace;resources.&ZeroWidthSpace;limits.&ZeroWidthSpace;memory | string | `"768Mi"` |  |
 | memcached-metadata.&ZeroWidthSpace;resources.&ZeroWidthSpace;requests.&ZeroWidthSpace;cpu | string | `"500m"` |  |
 | memcached-metadata.&ZeroWidthSpace;resources.&ZeroWidthSpace;requests.&ZeroWidthSpace;memory | string | `"715Mi"` |  |
-| memcached.&ZeroWidthSpace;extraEnv[0] | object | `{"name":"MEMCACHED_CACHE_SIZE","value":"1024"}` | MEMCACHED_CACHE_SIZE is the amount of memory allocated to memcached for object storage |
-| memcached.&ZeroWidthSpace;extraEnv[1] | object | `{"name":"MEMCACHED_MAX_CONNECTIONS","value":"1024"}` | MEMCACHED_MAX_CONNECTIONS is the maximum number of simultaneous connections to the memcached service |
-| memcached.&ZeroWidthSpace;extraEnv[2] | object | `{"name":"MEMCACHED_THREADS","value":"4"}` | MEMCACHED_THREADS is the number of threads to use when processing incoming requests. By default, memcached is configured to use 4 concurrent threads. The threading improves the performance of storing and retrieving data in the cache, using a locking system to prevent different threads overwriting or updating the same values. |
 | nginx.&ZeroWidthSpace;affinity | object | `{}` |  |
 | nginx.&ZeroWidthSpace;annotations | object | `{}` |  |
 | nginx.&ZeroWidthSpace;autoscaling.&ZeroWidthSpace;behavior | object | `{}` | Ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-configurable-scaling-behavior |
@@ -479,7 +484,6 @@ Kubernetes: `^1.19.0-0`
 | nginx.&ZeroWidthSpace;config.&ZeroWidthSpace;mainSnippet | string | `""` | arbitrary snippet to inject in the top section of the nginx config |
 | nginx.&ZeroWidthSpace;config.&ZeroWidthSpace;serverSnippet | string | `""` | arbitrary snippet to inject in the server { } section of the nginx config |
 | nginx.&ZeroWidthSpace;config.&ZeroWidthSpace;setHeaders | object | `{}` |  |
-| nginx.&ZeroWidthSpace;containerSecurityContext.&ZeroWidthSpace;enabled | bool | `true` |  |
 | nginx.&ZeroWidthSpace;containerSecurityContext.&ZeroWidthSpace;readOnlyRootFilesystem | bool | `false` |  |
 | nginx.&ZeroWidthSpace;enabled | bool | `true` |  |
 | nginx.&ZeroWidthSpace;env | list | `[]` |  |
@@ -525,7 +529,6 @@ Kubernetes: `^1.19.0-0`
 | querier.&ZeroWidthSpace;autoscaling.&ZeroWidthSpace;minReplicas | int | `2` |  |
 | querier.&ZeroWidthSpace;autoscaling.&ZeroWidthSpace;targetCPUUtilizationPercentage | int | `80` |  |
 | querier.&ZeroWidthSpace;autoscaling.&ZeroWidthSpace;targetMemoryUtilizationPercentage | int | `0` |  |
-| querier.&ZeroWidthSpace;containerSecurityContext.&ZeroWidthSpace;enabled | bool | `true` |  |
 | querier.&ZeroWidthSpace;containerSecurityContext.&ZeroWidthSpace;readOnlyRootFilesystem | bool | `true` |  |
 | querier.&ZeroWidthSpace;env | list | `[]` |  |
 | querier.&ZeroWidthSpace;extraArgs | object | `{}` | Additional Cortex container arguments, e.g. log.level (debug, info, warn, error) |
@@ -565,7 +568,6 @@ Kubernetes: `^1.19.0-0`
 | querier.&ZeroWidthSpace;tolerations | list | `[]` |  |
 | query_frontend.&ZeroWidthSpace;affinity | object | `{}` |  |
 | query_frontend.&ZeroWidthSpace;annotations | object | `{}` |  |
-| query_frontend.&ZeroWidthSpace;containerSecurityContext.&ZeroWidthSpace;enabled | bool | `true` |  |
 | query_frontend.&ZeroWidthSpace;containerSecurityContext.&ZeroWidthSpace;readOnlyRootFilesystem | bool | `true` |  |
 | query_frontend.&ZeroWidthSpace;env | list | `[]` |  |
 | query_frontend.&ZeroWidthSpace;extraArgs | object | `{}` | Additional Cortex container arguments, e.g. log.level (debug, info, warn, error) |
@@ -603,6 +605,8 @@ Kubernetes: `^1.19.0-0`
 | query_frontend.&ZeroWidthSpace;strategy.&ZeroWidthSpace;type | string | `"RollingUpdate"` |  |
 | query_frontend.&ZeroWidthSpace;terminationGracePeriodSeconds | int | `180` |  |
 | query_frontend.&ZeroWidthSpace;tolerations | list | `[]` |  |
+| rbac.&ZeroWidthSpace;create | bool | `true` |  |
+| rbac.&ZeroWidthSpace;pspEnabled | bool | `true` |  |
 | ruler.&ZeroWidthSpace;affinity | object | `{}` |  |
 | ruler.&ZeroWidthSpace;annotations | object | `{}` |  |
 | ruler.&ZeroWidthSpace;containerSecurityContext.&ZeroWidthSpace;readOnlyRootFilesystem | bool | `true` |  |
@@ -635,7 +639,7 @@ Kubernetes: `^1.19.0-0`
 | ruler.&ZeroWidthSpace;serviceMonitor.&ZeroWidthSpace;extraEndpointSpec | object | `{}` | Additional endpoint configuration https://github.com/prometheus-operator/prometheus-operator/blob/master/Documentation/api.md#endpoint |
 | ruler.&ZeroWidthSpace;serviceMonitor.&ZeroWidthSpace;metricRelabelings | list | `[]` |  |
 | ruler.&ZeroWidthSpace;serviceMonitor.&ZeroWidthSpace;relabelings | list | `[]` |  |
-| ruler.&ZeroWidthSpace;sidecar | object | `{"containerSecurityContext":{"enabled":true,"readOnlyRootFilesystem":true},"defaultFolderName":null,"enableUniqueFilenames":false,"enabled":false,"folder":"/tmp/rules","folderAnnotation":null,"image":{"repository":"quay.io/kiwigrid/k8s-sidecar","sha":"","tag":"1.10.7"},"imagePullPolicy":"IfNotPresent","label":"cortex_rules","labelValue":null,"resources":{},"searchNamespace":null,"watchMethod":null}` | Sidecars that collect the configmaps with specified label and stores the included files them into the respective folders |
+| ruler.&ZeroWidthSpace;sidecar | object | `{"containerSecurityContext":{"readOnlyRootFilesystem":true},"defaultFolderName":null,"enableUniqueFilenames":false,"enabled":false,"folder":"/tmp/rules","folderAnnotation":null,"image":{"repository":"quay.io/kiwigrid/k8s-sidecar","sha":"","tag":"1.10.7"},"imagePullPolicy":"IfNotPresent","label":"cortex_rules","labelValue":null,"resources":{},"searchNamespace":null,"watchMethod":null}` | Sidecars that collect the configmaps with specified label and stores the included files them into the respective folders |
 | ruler.&ZeroWidthSpace;sidecar.&ZeroWidthSpace;defaultFolderName | string | `nil` | The default folder name, it will create a subfolder under the `folder` and put rules in there instead |
 | ruler.&ZeroWidthSpace;sidecar.&ZeroWidthSpace;folder | string | `"/tmp/rules"` | folder in the pod that should hold the collected rules (unless `defaultFolderName` is set) |
 | ruler.&ZeroWidthSpace;sidecar.&ZeroWidthSpace;folderAnnotation | string | `nil` | If specified, the sidecar will look for annotation with this name to create folder and put graph here. You can use this parameter together with `provider.foldersFromFilesStructure`to annotate configmaps and create folder structure. |
@@ -663,7 +667,8 @@ Kubernetes: `^1.19.0-0`
 | store_gateway.&ZeroWidthSpace;affinity.&ZeroWidthSpace;podAntiAffinity.&ZeroWidthSpace;preferredDuringSchedulingIgnoredDuringExecution[0].&ZeroWidthSpace;podAffinityTerm.&ZeroWidthSpace;topologyKey | string | `"kubernetes.io/hostname"` |  |
 | store_gateway.&ZeroWidthSpace;affinity.&ZeroWidthSpace;podAntiAffinity.&ZeroWidthSpace;preferredDuringSchedulingIgnoredDuringExecution[0].&ZeroWidthSpace;weight | int | `100` |  |
 | store_gateway.&ZeroWidthSpace;annotations | object | `{}` |  |
-| store_gateway.&ZeroWidthSpace;containerSecurityContext.&ZeroWidthSpace;enabled | bool | `true` |  |
+| store_gateway.&ZeroWidthSpace;availabilityCells.&ZeroWidthSpace;az1.&ZeroWidthSpace;name | string | `"az1"` |  |
+| store_gateway.&ZeroWidthSpace;availabilityCells.&ZeroWidthSpace;az1.&ZeroWidthSpace;tolerations | list | `[]` |  |
 | store_gateway.&ZeroWidthSpace;containerSecurityContext.&ZeroWidthSpace;readOnlyRootFilesystem | bool | `true` |  |
 | store_gateway.&ZeroWidthSpace;env | list | `[]` |  |
 | store_gateway.&ZeroWidthSpace;extraArgs | object | `{}` | Additional Cortex container arguments, e.g. log.level (debug, info, warn, error) |
@@ -709,7 +714,6 @@ Kubernetes: `^1.19.0-0`
 | store_gateway.&ZeroWidthSpace;tolerations | list | `[]` |  |
 | table_manager.&ZeroWidthSpace;affinity | object | `{}` |  |
 | table_manager.&ZeroWidthSpace;annotations | object | `{}` |  |
-| table_manager.&ZeroWidthSpace;containerSecurityContext.&ZeroWidthSpace;enabled | bool | `true` |  |
 | table_manager.&ZeroWidthSpace;containerSecurityContext.&ZeroWidthSpace;readOnlyRootFilesystem | bool | `true` |  |
 | table_manager.&ZeroWidthSpace;env | list | `[]` |  |
 | table_manager.&ZeroWidthSpace;extraArgs | object | `{}` | Additional Cortex container arguments, e.g. log.level (debug, info, warn, error) |
@@ -747,6 +751,9 @@ Kubernetes: `^1.19.0-0`
 | table_manager.&ZeroWidthSpace;terminationGracePeriodSeconds | int | `180` |  |
 | table_manager.&ZeroWidthSpace;tolerations | list | `[]` |  |
 | tags.&ZeroWidthSpace;blocks-storage-memcached | bool | `false` | Set to true to enable block storage memcached caching |
+| topologyAware.&ZeroWidthSpace;enabled | bool | `false` |  |
+| topologyAware.&ZeroWidthSpace;rolloutOperator.&ZeroWidthSpace;enabled | bool | `false` |  |
+| topologyAware.&ZeroWidthSpace;zoneLabel | string | `"topology.kubernetes.io/zone"` |  |
 | useConfigMap | bool | `false` |  |
 | useExternalConfig | bool | `false` |  |
 

@@ -1,30 +1,30 @@
 dependencies:
 - name: memcached
   repository: https://charts.bitnami.com/bitnami
-  version: 6.0.17
+  version: 6.2.5
 - name: memcached
   repository: https://charts.bitnami.com/bitnami
-  version: 6.0.17
+  version: 6.2.5
 - name: memcached
   repository: https://charts.bitnami.com/bitnami
-  version: 6.0.17
+  version: 6.2.5
 - name: memcached
   repository: https://charts.bitnami.com/bitnami
-  version: 6.0.17
+  version: 6.2.5
 - name: memcached
   repository: https://charts.bitnami.com/bitnami
-  version: 6.0.17
+  version: 6.2.5
 - name: memcached
   repository: https://charts.bitnami.com/bitnami
-  version: 6.0.17
+  version: 6.2.5
 - name: memcached
   repository: https://charts.bitnami.com/bitnami
-  version: 6.0.17
+  version: 6.2.5
 - name: consul
   repository: https://helm.releases.hashicorp.com
-  version: 0.31.1
+  version: 0.49.0
 - name: rollout-operator
   repository: https://grafana.github.io/helm-charts
   version: 0.1.2
-digest: sha256:93d67b89e94edacaca766aad585311d864b587f66c684b8933972bce244b7aff
-generated: "2022-08-26T13:31:00.952957+02:00"
+digest: sha256:b0e72a037c35c478d5d7ec196bbd8bc335f3fefac3a0bc1cdcf6442451105dfd
+generated: "2022-10-06T14:00:11.500783+02:00"
