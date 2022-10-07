@@ -121,7 +121,7 @@ config:
   memberlist:
     bind_port: 7946
     # -- the service name of the memberlist
-    join_members: 
+    join_members:
       - '{{ include "cortex.memberlistname" . }}'
 
   querier:
