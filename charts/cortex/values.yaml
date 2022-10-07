@@ -117,6 +117,12 @@ config:
     shard_by_all_labels: true
     pool:
       health_check_ingesters: true
+    ring:
+      kvstore:
+        store: memberlist
+    ha_tracker:
+      kvstore:
+        store: "memberlist"
 
   memberlist:
     bind_port: 7946
@@ -150,6 +156,9 @@ config:
     # -- Enable the experimental alertmanager config api.
     enable_api: false
     external_url: '/api/prom/alertmanager'
+    sharding_ring:
+      kvstore:
+        store: "memberlist"
     # -- Type of backend to use to store alertmanager configs. Supported values are: "configdb", "gcs", "s3", "local". refer to: https://cortexmetrics.io/docs/configuration/configuration-file/#alertmanager_config
     storage: {}
 
