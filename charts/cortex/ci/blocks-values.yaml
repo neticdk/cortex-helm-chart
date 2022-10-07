@@ -11,10 +11,6 @@ config:
     lifecycler:
       ring:
         replication_factor: 1
-        kvstore:
-          store: consul
-          consul:
-            host: 'consul-consul-server.default.svc:8500'
 
   blocks_storage:
     backend: s3
@@ -31,11 +27,6 @@ config:
   ruler:
     enable_sharding: true
     enable_api: true
-    ring:
-      kvstore:
-        store: consul
-        consul:
-          host: 'consul-consul-server.default.svc:8500'
     storage:
       type: 'local'
       local:
@@ -53,11 +44,6 @@ config:
 
   compactor:
     sharding_enabled: true
-    sharding_ring:
-      kvstore:
-        store: consul
-        consul:
-          host: 'consul-consul-server.default.svc:8500'
 
   store_gateway:
     sharding_enabled: true
@@ -65,10 +51,6 @@ config:
       replication_factor: 1
       heartbeat_period: 5s
       heartbeat_timeout: 15s
-      kvstore:
-        store: consul
-        consul:
-          host: 'consul-consul-server.default.svc:8500'
 
 configs:
   enabled: false
