@@ -39,6 +39,7 @@ spec:
   template:
     metadata:
       labels: {{ include "cortex-store-gateway.labels" . | nindent 8 }}
+        app.kubernetes.io/part-of: memberlist
         {{- with .Values.store_gateway.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -174,6 +175,7 @@ spec:
   template:
     metadata:
       labels: {{ include "cortex-store-gateway.labels" $ | nindent 8 }}
+        app.kubernetes.io/part-of: memberlist
 {{- $.Values.topologyAware.zoneLabel | nindent 8 }}: {{ $availabilityCell.name }}
         {{- with $.Values.store_gateway.podLabels }}
         {{- toYaml . | nindent 8 }}

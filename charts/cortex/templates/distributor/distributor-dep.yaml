@@ -16,6 +16,7 @@ spec:
   template:
     metadata:
       labels: {{ include "cortex-distributor.labels" . | nindent 8 }}
+        app.kubernetes.io/part-of: memberlist
 {{- with .Values.distributor.podLabels }}
 {{- toYaml . | indent 8 }}
 {{- end }}

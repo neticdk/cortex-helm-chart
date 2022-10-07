@@ -17,6 +17,7 @@ spec:
   template:
     metadata:
       labels: {{ include "cortex-ingester.labels" . | nindent 8 }}
+        app.kubernetes.io/part-of: memberlist
 {{- with .Values.ingester.podLabels }}
 {{- toYaml . | indent 8 }}
 {{- end }}

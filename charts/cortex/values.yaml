@@ -70,10 +70,7 @@ config:
         # -- Ingester replication factor per default is 3
         replication_factor: 3
         kvstore:
-          store: consul
-          consul:
-            host: '{{ .Release.Name }}-consul-server:8500'
-            # consistent_reads: true
+          store: memberlist
 
   server:
     http_listen_port: 8080
@@ -110,6 +107,9 @@ config:
   # -- https://cortexmetrics.io/docs/configuration/configuration-file/#store_gateway_config
   store_gateway:
     sharding_enabled: false  # this is also default but allows for this to be used the templates
+    sharding_ring:
+      kvstore:
+        store: memberlist
 
   distributor:
     # -- Distribute samples based on all labels, as opposed to solely by user and
@@ -117,14 +117,18 @@ config:
     shard_by_all_labels: true
     pool:
       health_check_ingesters: true
+    ring:
+      kvstore:
+        store: memberlist
+    ha_tracker:
+      kvstore:
+        store: "memberlist"
 
   memberlist:
     bind_port: 7946
     # -- the service name of the memberlist
-    join_members: []
-    ## add here the service name of the ingesters
-    ## if using memberlist discovery, eg:
-    #  - cortex-ingester-headless
+    join_members:
+      - '{{ include "cortex.memberlistname" . }}'
 
   querier:
     active_query_tracker_dir: /data/cortex-active-query-tracker
@@ -144,11 +148,17 @@ config:
   ruler:
     enable_alertmanager_v2: true
     rule_path: /data/cortex-rules
+    ring:
+      kvstore:
+        store: memberlist
 
   alertmanager:
     # -- Enable the experimental alertmanager config api.
     enable_api: false
     external_url: '/api/prom/alertmanager'
+    sharding_ring:
+      kvstore:
+        store: "memberlist"
     # -- Type of backend to use to store alertmanager configs. Supported values are: "configdb", "gcs", "s3", "local". refer to: https://cortexmetrics.io/docs/configuration/configuration-file/#alertmanager_config
     storage: {}
 
@@ -157,6 +167,9 @@ config:
 
   compactor:
     data_dir: /data/cortex-compactor
+    sharding_ring:
+      kvstore:
+        store: memberlist
 
   limits: {}
   # -- Enforce that every sample has a metric name

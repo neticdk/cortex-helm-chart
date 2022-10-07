@@ -38,6 +38,7 @@ spec:
   template:
     metadata:
       labels: {{ include "cortex-compactor.labels" . | nindent 8 }}
+        app.kubernetes.io/part-of: memberlist
         {{- with .Values.compactor.podLabels }}
 {{- toYaml . | indent 8 }}
         {{- end }}
