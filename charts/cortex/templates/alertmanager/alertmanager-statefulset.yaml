@@ -166,7 +166,7 @@ spec:
             - name: http-metrics
               containerPort: {{ .Values.config.server.http_listen_port }}
               protocol: TCP
-            - name: http-gossip
+            - name: gossip
               containerPort: {{ .Values.config.memberlist.bind_port }}
               protocol: TCP
           startupProbe:
