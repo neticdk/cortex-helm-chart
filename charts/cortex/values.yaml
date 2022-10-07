@@ -121,8 +121,8 @@ config:
   memberlist:
     bind_port: 7946
     # -- the service name of the memberlist
-    join_members:
-      -  {{ include "cortex.memberlistname" . }}
+    join_members: 
+      - '{{ include "cortex.memberlistname" . }}'
 
   querier:
     active_query_tracker_dir: /data/cortex-active-query-tracker
