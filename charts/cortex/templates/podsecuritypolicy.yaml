@@ -1,4 +1,4 @@
-{{- if .Values.rbac.pspEnabled }}
+{{- if and .Values.rbac.pspEnabled (le (int .Capabilities.KubeVersion.Minor) 24) }}
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:

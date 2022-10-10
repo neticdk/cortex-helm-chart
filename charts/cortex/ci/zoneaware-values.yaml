@@ -1,0 +1,73 @@
+topologyAware:
+  enabled: true
+  zoneLabel: kubernetes.io/os
+  rolloutOperator:
+    enabled: false
+
+alertmanager:
+  enabled: false
+
+ruler:
+  enabled: false
+
+ingester:
+  replicas: 1
+  statefulSet:
+    enabled: true
+  availabilityCells:
+    linux:
+      name: linux
+distributor:
+  replicas: 1
+nginx:
+  replicas: 1
+store_gateway:
+  replicas: 1
+  availabilityCells:
+    linux:
+      name: linux
+
+consul:
+  enabled: false
+
+memcached:
+  replicaCount: 1
+  resources: null
+  metrics:
+    enabled: false
+
+memcached-index-read:
+  replicaCount: 1
+  resources: null
+  metrics:
+    enabled: false
+
+memcached-index-write:
+  replicaCount: 1
+  resources: null
+  metrics:
+    enabled: false
+
+memcached-frontend:
+  replicaCount: 1
+  resources: null
+  metrics:
+    enabled: false
+
+memcached-index:
+  replicaCount: 1
+  resources: null
+  metrics:
+    enabled: false
+
+memcached-chunks:
+  replicaCount: 1
+  resources: null
+  metrics:
+    enabled: false
+
+memcached-metadata:
+  replicaCount: 1
+  resources: null
+  metrics:
+    enabled: false

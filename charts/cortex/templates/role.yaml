@@ -4,7 +4,7 @@ kind: Role
 metadata:
   name: {{ template "cortex.fullname" . }}
   labels: {{ include "cortex.labels" . | nindent 4 }}
-{{- if .Values.rbac.pspEnabled }}
+{{- if and .Values.rbac.pspEnabled (le (int .Capabilities.KubeVersion.Minor) 24) }}
 rules:
 - apiGroups:      ['extensions']
   resources:      ['podsecuritypolicies']

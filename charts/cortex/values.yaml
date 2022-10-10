@@ -596,10 +596,10 @@ ingester:
   extraPorts: []
   env: []
 
-  availabilityCells:
-    az1:
-      name: az1  # Maybe not that elegant, though, but we need a placeholder if no tolerations is given
-      tolerations: []  # Optional
+  availabilityCells: {}
+    # az1:
+    #   name: az1  # Maybe not that elegant, though, but we need a placeholder if no tolerations is given
+    #   tolerations: []  # Optional
 
 ruler:
   enabled: true
@@ -1301,10 +1301,10 @@ store_gateway:
   extraPorts: []
   env: []
 
-  availabilityCells:
-    az1:
-      name: az1  # Maybe not that elegant, though, but we need a placeholder if no tolerations is given
-      tolerations: []  # Optional
+  availabilityCells: {}
+    # az1:
+    #   name: az1  # Maybe not that elegant, though, but we need a placeholder if no tolerations is given
+    #   tolerations: []  # Optional
 
 compactor:
   enabled: true
