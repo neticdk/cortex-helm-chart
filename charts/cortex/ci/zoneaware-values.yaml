@@ -4,6 +4,21 @@ topologyAware:
   rolloutOperator:
     enabled: false
 
+config:
+  storage:
+    engine: blocks
+  blocks_storage:
+    backend: s3
+
+    #  To install minio:
+    # helm upgrade -i --set accessKey=ssRtFvgGMdtc2b8vcPZ4 --set secretKey=3P1yXv2bnVjKx8yaLvXkcCRje0tK9rONFWRxB1gZ --set 'buckets[0].name=cortex,buckets[0].policy=none,buckets[0].purge=false' minio minio/minio
+    s3:
+      endpoint: minio.default.svc:9000
+      bucket_name: cortex
+      secret_access_key: '3P1yXv2bnVjKx8yaLvXkcCRje0tK9rONFWRxB1gZ'
+      access_key_id: 'ssRtFvgGMdtc2b8vcPZ4'
+      insecure: true
+
 alertmanager:
   enabled: false
 
