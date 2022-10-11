@@ -1,0 +1,88 @@
+topologyAware:
+  enabled: true
+  zoneLabel: kubernetes.io/os
+  rolloutOperator:
+    enabled: false
+
+config:
+  storage:
+    engine: blocks
+  blocks_storage:
+    backend: s3
+
+    #  To install minio:
+    # helm upgrade -i --set accessKey=ssRtFvgGMdtc2b8vcPZ4 --set secretKey=3P1yXv2bnVjKx8yaLvXkcCRje0tK9rONFWRxB1gZ --set 'buckets[0].name=cortex,buckets[0].policy=none,buckets[0].purge=false' minio minio/minio
+    s3:
+      endpoint: minio.default.svc:9000
+      bucket_name: cortex
+      secret_access_key: '3P1yXv2bnVjKx8yaLvXkcCRje0tK9rONFWRxB1gZ'
+      access_key_id: 'ssRtFvgGMdtc2b8vcPZ4'
+      insecure: true
+
+alertmanager:
+  enabled: false
+
+ruler:
+  enabled: false
+
+ingester:
+  replicas: 1
+  statefulSet:
+    enabled: true
+  availabilityCells:
+    linux:
+      name: linux
+distributor:
+  replicas: 1
+nginx:
+  replicas: 1
+store_gateway:
+  replicas: 1
+  availabilityCells:
+    linux:
+      name: linux
+
+consul:
+  enabled: false
+
+memcached:
+  replicaCount: 1
+  resources: null
+  metrics:
+    enabled: false
+
+memcached-index-read:
+  replicaCount: 1
+  resources: null
+  metrics:
+    enabled: false
+
+memcached-index-write:
+  replicaCount: 1
+  resources: null
+  metrics:
+    enabled: false
+
+memcached-frontend:
+  replicaCount: 1
+  resources: null
+  metrics:
+    enabled: false
+
+memcached-index:
+  replicaCount: 1
+  resources: null
+  metrics:
+    enabled: false
+
+memcached-chunks:
+  replicaCount: 1
+  resources: null
+  metrics:
+    enabled: false
+
+memcached-metadata:
+  replicaCount: 1
+  resources: null
+  metrics:
+    enabled: false

@@ -2,7 +2,7 @@
 
 # cortex
 
-![Version: 0.5.5](https://img.shields.io/badge/Version-0.5.5-informational?style=flat-square) ![AppVersion: v1.13.1](https://img.shields.io/badge/AppVersion-v1.13.1-informational?style=flat-square)
+![Version: 0.5.6](https://img.shields.io/badge/Version-0.5.6-informational?style=flat-square) ![AppVersion: v1.13.1](https://img.shields.io/badge/AppVersion-v1.13.1-informational?style=flat-square)
 
 Horizontally scalable, highly available, multi-tenant, long term Prometheus.
 
@@ -201,6 +201,7 @@ Kubernetes: `^1.19.0-0`
 | compactor.&ZeroWidthSpace;tolerations | list | `[]` |  |
 | config.&ZeroWidthSpace;alertmanager.&ZeroWidthSpace;enable_api | bool | `false` | Enable the experimental alertmanager config api. |
 | config.&ZeroWidthSpace;alertmanager.&ZeroWidthSpace;external_url | string | `"/api/prom/alertmanager"` |  |
+| config.&ZeroWidthSpace;alertmanager.&ZeroWidthSpace;sharding_ring.&ZeroWidthSpace;kvstore.&ZeroWidthSpace;store | string | `"memberlist"` |  |
 | config.&ZeroWidthSpace;alertmanager.&ZeroWidthSpace;storage | object | `{}` | Type of backend to use to store alertmanager configs. Supported values are: "configdb", "gcs", "s3", "local". refer to: https://cortexmetrics.io/docs/configuration/configuration-file/#alertmanager_config |
 | config.&ZeroWidthSpace;api.&ZeroWidthSpace;prometheus_http_prefix | string | `"/prometheus"` |  |
 | config.&ZeroWidthSpace;api.&ZeroWidthSpace;response_compression_enabled | bool | `true` | Use GZIP compression for API responses. Some endpoints serve large YAML or JSON blobs which can benefit from compression. |
@@ -209,22 +210,24 @@ Kubernetes: `^1.19.0-0`
 | config.&ZeroWidthSpace;blocks_storage.&ZeroWidthSpace;bucket_store.&ZeroWidthSpace;sync_dir | string | `"/data/tsdb"` |  |
 | config.&ZeroWidthSpace;blocks_storage.&ZeroWidthSpace;tsdb.&ZeroWidthSpace;dir | string | `"/data/tsdb"` |  |
 | config.&ZeroWidthSpace;compactor.&ZeroWidthSpace;data_dir | string | `"/data/cortex-compactor"` |  |
+| config.&ZeroWidthSpace;compactor.&ZeroWidthSpace;sharding_ring.&ZeroWidthSpace;kvstore.&ZeroWidthSpace;store | string | `"memberlist"` |  |
+| config.&ZeroWidthSpace;distributor.&ZeroWidthSpace;ha_tracker.&ZeroWidthSpace;kvstore.&ZeroWidthSpace;store | string | `"memberlist"` |  |
 | config.&ZeroWidthSpace;distributor.&ZeroWidthSpace;pool.&ZeroWidthSpace;health_check_ingesters | bool | `true` |  |
+| config.&ZeroWidthSpace;distributor.&ZeroWidthSpace;ring.&ZeroWidthSpace;kvstore.&ZeroWidthSpace;store | string | `"memberlist"` |  |
 | config.&ZeroWidthSpace;distributor.&ZeroWidthSpace;shard_by_all_labels | bool | `true` | Distribute samples based on all labels, as opposed to solely by user and metric name. |
 | config.&ZeroWidthSpace;frontend.&ZeroWidthSpace;log_queries_longer_than | string | `"10s"` |  |
 | config.&ZeroWidthSpace;ingester.&ZeroWidthSpace;lifecycler.&ZeroWidthSpace;final_sleep | string | `"30s"` | Duration to sleep for before exiting, to ensure metrics are scraped. |
 | config.&ZeroWidthSpace;ingester.&ZeroWidthSpace;lifecycler.&ZeroWidthSpace;join_after | string | `"10s"` | We don't want to join immediately, but wait a bit to see other ingesters and their tokens first. It can take a while to have the full picture when using gossip |
 | config.&ZeroWidthSpace;ingester.&ZeroWidthSpace;lifecycler.&ZeroWidthSpace;num_tokens | int | `512` |  |
 | config.&ZeroWidthSpace;ingester.&ZeroWidthSpace;lifecycler.&ZeroWidthSpace;observe_period | string | `"10s"` | To avoid generating same tokens by multiple ingesters, they can "observe" the ring for a while, after putting their own tokens into it. This is only useful when using gossip, since multiple ingesters joining at the same time can have conflicting tokens if they don't see each other yet. |
-| config.&ZeroWidthSpace;ingester.&ZeroWidthSpace;lifecycler.&ZeroWidthSpace;ring.&ZeroWidthSpace;kvstore.&ZeroWidthSpace;consul.&ZeroWidthSpace;host | string | `"{{ .Release.Name }}-consul-server:8500"` |  |
-| config.&ZeroWidthSpace;ingester.&ZeroWidthSpace;lifecycler.&ZeroWidthSpace;ring.&ZeroWidthSpace;kvstore.&ZeroWidthSpace;store | string | `"consul"` |  |
+| config.&ZeroWidthSpace;ingester.&ZeroWidthSpace;lifecycler.&ZeroWidthSpace;ring.&ZeroWidthSpace;kvstore.&ZeroWidthSpace;store | string | `"memberlist"` |  |
 | config.&ZeroWidthSpace;ingester.&ZeroWidthSpace;lifecycler.&ZeroWidthSpace;ring.&ZeroWidthSpace;replication_factor | int | `3` | Ingester replication factor per default is 3 |
 | config.&ZeroWidthSpace;ingester_client.&ZeroWidthSpace;grpc_client_config.&ZeroWidthSpace;grpc_compression | string | `"gzip"` |  |
 | config.&ZeroWidthSpace;ingester_client.&ZeroWidthSpace;grpc_client_config.&ZeroWidthSpace;max_recv_msg_size | int | `104857600` |  |
 | config.&ZeroWidthSpace;ingester_client.&ZeroWidthSpace;grpc_client_config.&ZeroWidthSpace;max_send_msg_size | int | `104857600` |  |
 | config.&ZeroWidthSpace;limits | object | `{}` |  |
 | config.&ZeroWidthSpace;memberlist.&ZeroWidthSpace;bind_port | int | `7946` |  |
-| config.&ZeroWidthSpace;memberlist.&ZeroWidthSpace;join_members | list | `[]` | the service name of the memberlist |
+| config.&ZeroWidthSpace;memberlist.&ZeroWidthSpace;join_members | list | `["{{ include \"cortex.memberlistname\" . }}"]` | the service name of the memberlist |
 | config.&ZeroWidthSpace;querier.&ZeroWidthSpace;active_query_tracker_dir | string | `"/data/cortex-active-query-tracker"` |  |
 | config.&ZeroWidthSpace;querier.&ZeroWidthSpace;query_ingesters_within | string | `"6h"` |  |
 | config.&ZeroWidthSpace;query_range.&ZeroWidthSpace;align_queries_with_step | bool | `true` |  |
@@ -233,6 +236,7 @@ Kubernetes: `^1.19.0-0`
 | config.&ZeroWidthSpace;query_range.&ZeroWidthSpace;results_cache.&ZeroWidthSpace;cache.&ZeroWidthSpace;memcached_client.&ZeroWidthSpace;timeout | string | `"1s"` |  |
 | config.&ZeroWidthSpace;query_range.&ZeroWidthSpace;split_queries_by_interval | string | `"24h"` |  |
 | config.&ZeroWidthSpace;ruler.&ZeroWidthSpace;enable_alertmanager_v2 | bool | `true` |  |
+| config.&ZeroWidthSpace;ruler.&ZeroWidthSpace;ring.&ZeroWidthSpace;kvstore.&ZeroWidthSpace;store | string | `"memberlist"` |  |
 | config.&ZeroWidthSpace;ruler.&ZeroWidthSpace;rule_path | string | `"/data/cortex-rules"` |  |
 | config.&ZeroWidthSpace;server.&ZeroWidthSpace;grpc_listen_port | int | `9095` |  |
 | config.&ZeroWidthSpace;server.&ZeroWidthSpace;grpc_server_max_concurrent_streams | int | `1000` |  |
@@ -242,7 +246,7 @@ Kubernetes: `^1.19.0-0`
 | config.&ZeroWidthSpace;storage | object | `{"engine":"blocks","index_queries_cache_config":{"memcached":{"expiration":"1h"},"memcached_client":{"timeout":"1s"}}}` | See https://github.com/cortexproject/cortex/blob/master/docs/configuration/config-file-reference.md#storage_config |
 | config.&ZeroWidthSpace;storage.&ZeroWidthSpace;index_queries_cache_config.&ZeroWidthSpace;memcached.&ZeroWidthSpace;expiration | string | `"1h"` | How long keys stay in the memcache |
 | config.&ZeroWidthSpace;storage.&ZeroWidthSpace;index_queries_cache_config.&ZeroWidthSpace;memcached_client.&ZeroWidthSpace;timeout | string | `"1s"` | Maximum time to wait before giving up on memcached requests. |
-| config.&ZeroWidthSpace;store_gateway | object | `{"sharding_enabled":false}` | https://cortexmetrics.io/docs/configuration/configuration-file/#store_gateway_config |
+| config.&ZeroWidthSpace;store_gateway | object | `{"sharding_enabled":false,"sharding_ring":{"kvstore":{"store":"memberlist"}}}` | https://cortexmetrics.io/docs/configuration/configuration-file/#store_gateway_config |
 | configs.&ZeroWidthSpace;affinity | object | `{}` |  |
 | configs.&ZeroWidthSpace;annotations | object | `{}` |  |
 | configs.&ZeroWidthSpace;containerSecurityContext.&ZeroWidthSpace;readOnlyRootFilesystem | bool | `true` |  |
@@ -357,8 +361,7 @@ Kubernetes: `^1.19.0-0`
 | ingester.&ZeroWidthSpace;autoscaling.&ZeroWidthSpace;maxReplicas | int | `30` |  |
 | ingester.&ZeroWidthSpace;autoscaling.&ZeroWidthSpace;minReplicas | int | `3` |  |
 | ingester.&ZeroWidthSpace;autoscaling.&ZeroWidthSpace;targetMemoryUtilizationPercentage | int | `80` |  |
-| ingester.&ZeroWidthSpace;availabilityCells.&ZeroWidthSpace;az1.&ZeroWidthSpace;name | string | `"az1"` |  |
-| ingester.&ZeroWidthSpace;availabilityCells.&ZeroWidthSpace;az1.&ZeroWidthSpace;tolerations | list | `[]` |  |
+| ingester.&ZeroWidthSpace;availabilityCells | object | `{}` |  |
 | ingester.&ZeroWidthSpace;containerSecurityContext.&ZeroWidthSpace;readOnlyRootFilesystem | bool | `true` |  |
 | ingester.&ZeroWidthSpace;env | list | `[]` |  |
 | ingester.&ZeroWidthSpace;extraArgs | object | `{}` | Additional Cortex container arguments, e.g. log.level (debug, info, warn, error) |
@@ -667,8 +670,7 @@ Kubernetes: `^1.19.0-0`
 | store_gateway.&ZeroWidthSpace;affinity.&ZeroWidthSpace;podAntiAffinity.&ZeroWidthSpace;preferredDuringSchedulingIgnoredDuringExecution[0].&ZeroWidthSpace;podAffinityTerm.&ZeroWidthSpace;topologyKey | string | `"kubernetes.io/hostname"` |  |
 | store_gateway.&ZeroWidthSpace;affinity.&ZeroWidthSpace;podAntiAffinity.&ZeroWidthSpace;preferredDuringSchedulingIgnoredDuringExecution[0].&ZeroWidthSpace;weight | int | `100` |  |
 | store_gateway.&ZeroWidthSpace;annotations | object | `{}` |  |
-| store_gateway.&ZeroWidthSpace;availabilityCells.&ZeroWidthSpace;az1.&ZeroWidthSpace;name | string | `"az1"` |  |
-| store_gateway.&ZeroWidthSpace;availabilityCells.&ZeroWidthSpace;az1.&ZeroWidthSpace;tolerations | list | `[]` |  |
+| store_gateway.&ZeroWidthSpace;availabilityCells | object | `{}` |  |
 | store_gateway.&ZeroWidthSpace;containerSecurityContext.&ZeroWidthSpace;readOnlyRootFilesystem | bool | `true` |  |
 | store_gateway.&ZeroWidthSpace;env | list | `[]` |  |
 | store_gateway.&ZeroWidthSpace;extraArgs | object | `{}` | Additional Cortex container arguments, e.g. log.level (debug, info, warn, error) |
