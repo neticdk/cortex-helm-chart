@@ -159,7 +159,7 @@ metadata:
     {{- toYaml $.Values.ingester.annotations | nindent 4 }}
     {{- end }}
     {{- if and $.Values.topologyAware.rolloutOperator.enabled (ge (len $.Values.ingester.availabilityCells) (int $.Values.config.ingester.lifecycler.ring.replication_factor)) }}
-    rollout-max-unavailable: {{ $.Values.ingester.replicas }}
+    rollout-max-unavailable: "{{ $.Values.ingester.replicas }}"
     {{- end }}
 spec:
   {{- if not $.Values.ingester.autoscaling.enabled }}

@@ -2,7 +2,7 @@
 
 # cortex
 
-![Version: 0.5.6](https://img.shields.io/badge/Version-0.5.6-informational?style=flat-square) ![AppVersion: v1.13.1](https://img.shields.io/badge/AppVersion-v1.13.1-informational?style=flat-square)
+![Version: 0.5.7](https://img.shields.io/badge/Version-0.5.7-informational?style=flat-square) ![AppVersion: v1.13.1](https://img.shields.io/badge/AppVersion-v1.13.1-informational?style=flat-square)
 
 Horizontally scalable, highly available, multi-tenant, long term Prometheus.
 
@@ -12,8 +12,8 @@ Horizontally scalable, highly available, multi-tenant, long term Prometheus.
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| Tom Hayward | thayward@infoblox.com | https://github.com/kd7lxl |
-| Niclas Schad | Niclas.Schad@plusserver.com | https://github.com/ShuzZzle |
+| Tom Hayward | <thayward@infoblox.com> | <https://github.com/kd7lxl> |
+| Niclas Schad | <Niclas.Schad@plusserver.com> | <https://github.com/ShuzZzle> |
 
 ## Documentation
 
@@ -479,8 +479,8 @@ Kubernetes: `^1.19.0-0`
 | nginx.&ZeroWidthSpace;autoscaling.&ZeroWidthSpace;minReplicas | int | `2` |  |
 | nginx.&ZeroWidthSpace;autoscaling.&ZeroWidthSpace;targetCPUUtilizationPercentage | int | `80` |  |
 | nginx.&ZeroWidthSpace;autoscaling.&ZeroWidthSpace;targetMemoryUtilizationPercentage | int | `0` |  |
-| nginx.&ZeroWidthSpace;config.&ZeroWidthSpace;auth_orgs | list | `[]` | (optional) List of [auth tenants](https://cortexmetrics.io/docs/guides/auth/) to set in the nginx config |
-| nginx.&ZeroWidthSpace;config.&ZeroWidthSpace;basicAuthSecretName | string | `""` | (optional) Name of basic auth secret. In order to use this option, a secret with htpasswd formatted contents at the key ".htpasswd" must exist. For example:   apiVersion: v1   kind: Secret   metadata:     name: my-secret     namespace: <same as cortex installation>   stringData:     .htpasswd: |       user1:$apr1$/woC1jnP$KAh0SsVn5qeSMjTtn0E9Q0       user2:$apr1$QdR8fNLT$vbCEEzDj7LyqCMyNpSoBh/ Please note that the use of basic auth will not identify organizations the way X-Scope-OrgID does. Thus, the use of basic auth alone will not prevent one tenant from viewing the metrics of another. To ensure tenants are scoped appropriately, explicitly set the `X-Scope-OrgID` header in the nginx config. Example   setHeaders:     X-Scope-OrgID: $remote_user |
+| nginx.&ZeroWidthSpace;config.&ZeroWidthSpace;auth_orgs | optional | `[]` | List of [auth tenants](https://cortexmetrics.io/docs/guides/auth/) to set in the nginx config |
+| nginx.&ZeroWidthSpace;config.&ZeroWidthSpace;basicAuthSecretName | optional | `""` | Name of basic auth secret. In order to use this option, a secret with htpasswd formatted contents at the key ".htpasswd" must exist. For example:    apiVersion: v1   kind: Secret   metadata:     name: my-secret     namespace: <same as cortex installation>   stringData:     .htpasswd: |       user1:$apr1$/woC1jnP$KAh0SsVn5qeSMjTtn0E9Q0       user2:$apr1$QdR8fNLT$vbCEEzDj7LyqCMyNpSoBh/  Please note that the use of basic auth will not identify organizations the way X-Scope-OrgID does. Thus, the use of basic auth alone will not prevent one tenant from viewing the metrics of another. To ensure tenants are scoped appropriately, explicitly set the `X-Scope-OrgID` header in the nginx config. Example   setHeaders:     X-Scope-OrgID: $remote_user |
 | nginx.&ZeroWidthSpace;config.&ZeroWidthSpace;client_max_body_size | string | `"1M"` | ref: http://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size |
 | nginx.&ZeroWidthSpace;config.&ZeroWidthSpace;dnsResolver | string | `"kube-dns.kube-system.svc.cluster.local"` |  |
 | nginx.&ZeroWidthSpace;config.&ZeroWidthSpace;httpSnippet | string | `""` | arbitrary snippet to inject in the http { } section of the nginx config |
