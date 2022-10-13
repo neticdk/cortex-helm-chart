@@ -2,7 +2,7 @@
 
 # cortex
 
-![Version: 0.5.7](https://img.shields.io/badge/Version-0.5.7-informational?style=flat-square) ![AppVersion: v1.13.1](https://img.shields.io/badge/AppVersion-v1.13.1-informational?style=flat-square)
+![Version: 0.5.8](https://img.shields.io/badge/Version-0.5.8-informational?style=flat-square) ![AppVersion: v1.13.1](https://img.shields.io/badge/AppVersion-v1.13.1-informational?style=flat-square)
 
 Horizontally scalable, highly available, multi-tenant, long term Prometheus.
 
@@ -211,7 +211,6 @@ Kubernetes: `^1.19.0-0`
 | config.&ZeroWidthSpace;blocks_storage.&ZeroWidthSpace;tsdb.&ZeroWidthSpace;dir | string | `"/data/tsdb"` |  |
 | config.&ZeroWidthSpace;compactor.&ZeroWidthSpace;data_dir | string | `"/data/cortex-compactor"` |  |
 | config.&ZeroWidthSpace;compactor.&ZeroWidthSpace;sharding_ring.&ZeroWidthSpace;kvstore.&ZeroWidthSpace;store | string | `"memberlist"` |  |
-| config.&ZeroWidthSpace;distributor.&ZeroWidthSpace;ha_tracker.&ZeroWidthSpace;kvstore.&ZeroWidthSpace;store | string | `"memberlist"` |  |
 | config.&ZeroWidthSpace;distributor.&ZeroWidthSpace;pool.&ZeroWidthSpace;health_check_ingesters | bool | `true` |  |
 | config.&ZeroWidthSpace;distributor.&ZeroWidthSpace;ring.&ZeroWidthSpace;kvstore.&ZeroWidthSpace;store | string | `"memberlist"` |  |
 | config.&ZeroWidthSpace;distributor.&ZeroWidthSpace;shard_by_all_labels | bool | `true` | Distribute samples based on all labels, as opposed to solely by user and metric name. |

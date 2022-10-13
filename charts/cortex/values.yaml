@@ -120,9 +120,6 @@ config:
     ring:
       kvstore:
         store: memberlist
-    ha_tracker:
-      kvstore:
-        store: "memberlist"
 
   memberlist:
     bind_port: 7946
