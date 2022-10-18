@@ -1283,6 +1283,11 @@ store_gateway:
 
   strategy:
     type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+  statefulStrategy:
+    type: RollingUpdate
 
   terminationGracePeriodSeconds: 240
 
