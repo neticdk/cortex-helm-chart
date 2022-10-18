@@ -140,15 +140,21 @@ metadata:
   name: {{ template "cortex-store-gateway.fullname-zone-aware" dict "Values" $.Values "Release" $.Release "Chart" $.Chart "AvailabilityCell" $availabilityCell.name }}
   labels: {{ include "cortex-store-gateway.labels" $ | nindent 4 }}
 {{- $.Values.topologyAware.zoneLabel | nindent 4 }}: {{ $availabilityCell.name }}
+    {{- if $.Values.topologyAware.rolloutOperator.enabled }}
+    rollout-group: store_gateway
+    {{- end }}
   annotations:
     {{- toYaml $.Values.store_gateway.annotations | nindent 4 }}
+    {{- if and $.Values.topologyAware.rolloutOperator.enabled (ge (len $.Values.store_gateway.availabilityCells) (int $.Values.config.store_gateway.lifecycler.replication_factor)) }}
+    rollout-max-unavailable: "{{ $.Values.store_gateway.replicas }}"
+    {{- end }}
 spec:
   replicas: {{ $.Values.store_gateway.replicas }}
   selector:
     matchLabels: {{ include "cortex-store-gateway.matchLabels" $ | nindent 6 }}
 {{- $.Values.topologyAware.zoneLabel | nindent 6 }}: {{ $availabilityCell.name }}
   updateStrategy:
-    {{- toYaml $.Values.store_gateway.strategy | nindent 4 }}
+    {{- toYaml $.Values.store_gateway.statefulStrategy | nindent 4 }}
   serviceName: {{ template "cortex-store-gateway.headlessname-zone-aware" dict "Values" $.Values "Release" $.Release "Chart" $.Chart "AvailabilityCell" $availabilityCell.name }}
   {{- if $.Values.store_gateway.persistentVolume.enabled }}
   volumeClaimTemplates:
@@ -177,6 +183,10 @@ spec:
       labels: {{ include "cortex-store-gateway.labels" $ | nindent 8 }}
         app.kubernetes.io/part-of: memberlist
 {{- $.Values.topologyAware.zoneLabel | nindent 8 }}: {{ $availabilityCell.name }}
+        {{- if $.Values.topologyAware.rolloutOperator.enabled }}
+        rollout-group: store_gateway
+        name: {{ template "cortex-store-gateway.fullname-zone-aware" dict "Values" $.Values "Release" $.Release "Chart" $.Chart "AvailabilityCell" $availabilityCell.name }}
+        {{- end }}
         {{- with $.Values.store_gateway.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -199,8 +209,6 @@ spec:
         - name: {{ . }}
       {{- end }}
       {{- end }}
-      nodeSelector:
-        {{- toYaml $.Values.store_gateway.nodeSelector | nindent 8 }}
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
