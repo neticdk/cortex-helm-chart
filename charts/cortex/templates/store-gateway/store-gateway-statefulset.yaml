@@ -145,7 +145,7 @@ metadata:
     {{- end }}
   annotations:
     {{- toYaml $.Values.store_gateway.annotations | nindent 4 }}
-    {{- if and $.Values.topologyAware.rolloutOperator.enabled (ge (len $.Values.store_gateway.availabilityCells) (int $.Values.config.store_gateway.lifecycler.replication_factor)) }}
+    {{- if and $.Values.topologyAware.rolloutOperator.enabled (ge (len $.Values.store_gateway.availabilityCells) (int $.Values.config.store_gateway.sharding_ring.replication_factor)) }}
     rollout-max-unavailable: "{{ $.Values.store_gateway.replicas }}"
     {{- end }}
 spec:
