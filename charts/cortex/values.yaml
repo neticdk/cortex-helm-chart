@@ -1288,6 +1288,8 @@ store_gateway:
       maxUnavailable: 1
   statefulStrategy:
     type: RollingUpdate
+  
+  podManagementPolicy: OrderedReady
 
   terminationGracePeriodSeconds: 240
 

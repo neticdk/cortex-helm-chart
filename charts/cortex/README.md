@@ -2,7 +2,7 @@
 
 # cortex
 
-![Version: 0.6.2](https://img.shields.io/badge/Version-0.6.2-informational?style=flat-square) ![AppVersion: v1.13.1](https://img.shields.io/badge/AppVersion-v1.13.1-informational?style=flat-square)
+![Version: 0.6.3](https://img.shields.io/badge/Version-0.6.3-informational?style=flat-square) ![AppVersion: v1.13.1](https://img.shields.io/badge/AppVersion-v1.13.1-informational?style=flat-square)
 
 Horizontally scalable, highly available, multi-tenant, long term Prometheus.
 
@@ -691,6 +691,7 @@ Kubernetes: `^1.19.0-0`
 | store_gateway.&ZeroWidthSpace;podAnnotations | object | `{}` | Pod Annotations |
 | store_gateway.&ZeroWidthSpace;podDisruptionBudget.&ZeroWidthSpace;maxUnavailable | int | `1` |  |
 | store_gateway.&ZeroWidthSpace;podLabels | object | `{}` | Pod Labels |
+| store_gateway.&ZeroWidthSpace;podManagementPolicy | string | `"OrderedReady"` |  |
 | store_gateway.&ZeroWidthSpace;readinessProbe.&ZeroWidthSpace;httpGet.&ZeroWidthSpace;path | string | `"/ready"` |  |
 | store_gateway.&ZeroWidthSpace;readinessProbe.&ZeroWidthSpace;httpGet.&ZeroWidthSpace;port | string | `"http-metrics"` |  |
 | store_gateway.&ZeroWidthSpace;replicas | int | `1` |  |
