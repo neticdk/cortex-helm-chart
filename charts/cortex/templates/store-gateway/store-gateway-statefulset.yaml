@@ -12,7 +12,7 @@ spec:
   selector:
     matchLabels: {{ include "cortex-store-gateway.matchLabels" . | nindent 6 }}
   updateStrategy:
-    {{- toYaml .Values.store_gateway.strategy | nindent 4 }}
+    {{- toYaml $.Values.store_gateway.statefulStrategy | nindent 4 }}
   podManagementPolicy: "{{ .Values.store_gateway.podManagementPolicy }}"
   serviceName: {{ template "cortex-store-gateway.headlessname" . }}
   {{- if .Values.store_gateway.persistentVolume.enabled }}
